@@ -1,7 +1,13 @@
 import "./App.css";
+import { Routes } from "react-router-dom";
+import { RootView } from "./views/Root";
 
 function App() {
-  return <div>Hello World</div>;
+  return (
+    <>
+      <RootView />
+    </>
+  );
 }
 
 export default App;
