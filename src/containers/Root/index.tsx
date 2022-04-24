@@ -1,11 +1,7 @@
-import { createContext, useState, Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import { Game } from "../../interfaces/Game";
 import { RootView } from "../../views/Root";
-
-const GameContext = createContext<{
-  game: Game | null;
-  setGame: Dispatch<SetStateAction<Game | null>>;
-} | null>(null);
+import { GameContext } from "../../contexts/Game";
 
 export const RootContainer = () => {
   const [game, setGame] = useState<Game | null>(null);
