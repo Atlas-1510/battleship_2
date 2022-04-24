@@ -1,9 +1,10 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 
 interface Props {
-  title: string;
+  children: ReactNode;
+  onClick: React.MouseEventHandler;
 }
 
-export const Button: FC<Props> = ({ title }) => {
-  return <button>{title}</button>;
+export const Button: FC<Props> = ({ children, onClick }) => {
+  return <button onClick={onClick}>{children}</button>;
 };
