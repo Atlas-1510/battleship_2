@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { SetupComponent } from "../../components/Setup";
+import { useState } from "react";
+import { useGameContext } from "../../hooks/useGameContext";
 import { Board } from "../../interfaces/Board";
+import { SetupView } from "../../views/Setup";
 
 export const SetupContainer = () => {
   // state for ship placements
@@ -8,9 +9,13 @@ export const SetupContainer = () => {
     recievedStrikes: [],
     shipPlacements: [],
   });
+
+  // use game context to get game and assign board state
+  const { game, setGame } = useGameContext();
+
   return (
     <>
-      <SetupComponent board={board} />
+      <SetupView />
     </>
   );
 };

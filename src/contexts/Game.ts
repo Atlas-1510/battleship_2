@@ -1,7 +1,9 @@
-import { createContext, Dispatch, SetStateAction } from "react";
+import { createContext } from "react";
 import { Game } from "../interfaces/Game";
 
-export const GameContext = createContext<{
+interface GameContext {
   game: Game | null;
-  setGame: Dispatch<SetStateAction<Game | null>>;
-} | null>(null);
+  setGame: (g: Game) => void;
+}
+
+export const GameContext = createContext<GameContext | null>(null);
