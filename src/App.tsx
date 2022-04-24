@@ -1,12 +1,8 @@
 import "./App.css";
-import { RootView } from "./views/Root";
+import { RootContainer } from "./containers/Root";
 
 function App() {
-  return (
-    <>
-      <RootView />
-    </>
-  );
+  return <RootContainer />;
 }
 
 export default App;
