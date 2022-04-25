@@ -13,9 +13,11 @@ const SetupContainer = () => {
   // use game context to get game and assign board state
   const { game, setGame } = useGameContext();
 
+  const handleShipPlacement = () => {};
+
   return (
     <>
-      <SetupPresentationComponent />
+      <SetupPresentationComponent handleShipPlacement={handleShipPlacement} />
     </>
   );
 };
