@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { SetupContainer } from "..";
+import SetupContainer from "..";
 import { GameContext } from "../../../contexts/Game";
 import { generateGame } from "../../../utilities/generateGame";
 

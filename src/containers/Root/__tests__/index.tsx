@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { MemoryRouter, Router, Location } from "react-router-dom";
-import { RootContainer } from "..";
+import RootContainer from "..";
 import { GameContext } from "../../../contexts/Game";
 import { Game } from "../../../interfaces/Game";
 
