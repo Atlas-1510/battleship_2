@@ -14,11 +14,11 @@ export function generateGame(): Game {
   };
   const boardOne: Board = {
     recievedStrikes: [],
-    shipPlacements: [],
+    ships: [],
   };
   const boardTwo: Board = {
     recievedStrikes: [],
-    shipPlacements: [],
+    ships: [],
   };
   const game: Game = {
     playerOne: playerOne,
