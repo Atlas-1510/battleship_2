@@ -1,1 +1,1 @@
-export { default } from "./RootView";
+export { default } from "./Root";
