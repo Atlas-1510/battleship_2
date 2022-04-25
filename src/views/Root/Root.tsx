@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Routes, Route } from "react-router-dom";
 import { routes } from "../../Routes";
 import GameView from "../Game";
-import { OutcomeView } from "../Outcome";
+import OutcomeView from "../Outcome";
 import HomeView from "../Home";
 import SetupView from "../Setup";
 
