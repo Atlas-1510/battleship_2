@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { HomeContainer } from "../../containers/Home";
+import HomeContainer from "../../containers/Home";
 
 interface Props {}
 

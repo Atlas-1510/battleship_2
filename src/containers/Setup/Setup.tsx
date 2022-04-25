@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useGameContext } from "../../hooks/useGameContext";
 import { Board } from "../../interfaces/Board";
-import { SetupPresentationComponent } from "../../PresentationComponents/Setup";
+import SetupPresentationComponent from "../../PresentationComponents/Setup";
 
 const SetupContainer = () => {
   // state for ship placements

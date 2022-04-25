@@ -1,4 +1,4 @@
-import { SetupContainer } from "../../containers/Setup";
+import SetupContainer from "../../containers/Setup";
 
 const SetupView = () => {
   return (

@@ -1,11 +1,10 @@
 import { FC } from "react";
 import { Routes, Route } from "react-router-dom";
 import { routes } from "../../Routes";
-import { GameView } from "../Game";
+import GameView from "../Game";
 import { OutcomeView } from "../Outcome";
-import { SetupContainer } from "../../containers/Setup";
-import { HomeView } from "../Home";
-import { SetupView } from "../Setup";
+import HomeView from "../Home";
+import SetupView from "../Setup";
 
 const RootView: FC = () => {
   return (
