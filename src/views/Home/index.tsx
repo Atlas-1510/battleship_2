@@ -1,16 +1,8 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "../../PresentationComponents/Button";
+import { HomeContainer } from "../../containers/Home";
 
-interface Props {
-  handleStartGame: React.MouseEventHandler;
-}
+interface Props {}
 
-export const HomeView: FC<Props> = ({ handleStartGame }) => {
-  // on button click, programatically change location
-  return (
-    <div>
-      <Button onClick={handleStartGame}>New Game</Button>
-    </div>
-  );
+export const HomeView: FC<Props> = () => {
+  return <HomeContainer />;
 };

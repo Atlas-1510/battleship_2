@@ -7,7 +7,7 @@ export const SetupContainer = () => {
   // state for ship placements
   const [board, setBoard] = useState<Board>({
     recievedStrikes: [],
-    shipPlacements: [],
+    ships: [],
   });
 
   // use game context to get game and assign board state

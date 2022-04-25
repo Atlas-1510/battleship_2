@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { HomeView } from "../../views/Home";
 import { routes } from "../../Routes";
 import { useGameContext } from "../../hooks/useGameContext";
 import { generateGame } from "../../utilities/generateGame";
+import { HomePresentationComponent } from "../../PresentationComponents/Home";
 
 export const HomeContainer = () => {
   const { setGame } = useGameContext();
@@ -14,7 +14,7 @@ export const HomeContainer = () => {
   };
   return (
     <>
-      <HomeView handleStartGame={startGame} />
+      <HomePresentationComponent handleStartGame={startGame} />
     </>
   );
 };
