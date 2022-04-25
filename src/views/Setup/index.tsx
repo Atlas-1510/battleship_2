@@ -1,5 +1,7 @@
-import React from "react";
-
 export const SetupView = () => {
-  return <div>SetupView</div>;
+  return (
+    <>
+      <div>Place your ships</div>
+    </>
+  );
 };

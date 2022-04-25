@@ -6,6 +6,6 @@ export interface Game {
   playerTwo: Player;
   boardOne: Board;
   boardTwo: Board;
-  outcome: "victory" | "defeat";
+  outcome?: "victory" | "defeat";
   moveCounter: number;
 }
