@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useGameContext } from "../../hooks/useGameContext";
 import { Board } from "../../interfaces/Board";
-import { SetupView } from "../../views/Setup";
+import { SetupPresentationComponent } from "../../PresentationComponents/Setup";
 
 export const SetupContainer = () => {
   // state for ship placements
@@ -15,7 +15,7 @@ export const SetupContainer = () => {
 
   return (
     <>
-      <SetupView />
+      <SetupPresentationComponent />
     </>
   );
 };

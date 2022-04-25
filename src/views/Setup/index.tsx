@@ -1,7 +1,9 @@
+import { SetupContainer } from "../../containers/Setup";
+
 export const SetupView = () => {
   return (
     <>
-      <div>Place your ships</div>
+      <SetupContainer />
     </>
   );
 };
