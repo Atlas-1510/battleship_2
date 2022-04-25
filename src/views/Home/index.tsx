@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "../../components/Button";
+import { Button } from "../../PresentationComponents/Button";
 
 interface Props {
   handleStartGame: React.MouseEventHandler;
