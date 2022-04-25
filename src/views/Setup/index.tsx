@@ -1,9 +1,1 @@
-import { SetupContainer } from "../../containers/Setup";
-
-export const SetupView = () => {
-  return (
-    <>
-      <SetupContainer />
-    </>
-  );
-};
+export { default } from "./SetupView";
