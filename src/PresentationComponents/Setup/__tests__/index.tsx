@@ -70,4 +70,14 @@ describe("SetupPresentationComponent", () => {
     const error = await screen.findByText("Please choose ship");
     expect(error).toBeInTheDocument();
   });
+
+  test("If try to submit with invalid coordinates, render error to user", async () => {
+    setup();
+    const shipInput = getShipInput();
+    user.selectOptions(shipInput, "carrier");
+    const button = getSubmitButton();
+    user.click(button);
+    const error = await screen.findByText("Invalid value for coordinate input");
+    expect(error).toBeInTheDocument();
+  });
 });

@@ -65,18 +65,21 @@ const SetupPresentationComponent: FC<Props> = ({ confirmShipPlacement }) => {
     const validateCoordinate = (coord: any) => {
       if (!coord) {
         setError("onSubmitShips recieved undefined coordinate");
+        return false;
       }
       if (typeof coord !== "number") {
         setError("Invalid type for coordinate input");
+        return false;
       }
       if (coord > 9 || coord < 0) {
         setError("Invalid value for coordinate input");
+        return false;
       }
       return true;
     };
-    validateCoordinate(x);
-    validateCoordinate(y);
-
+    if (!validateCoordinate(x) || !validateCoordinate(y)) {
+      return;
+    }
     if (!ship) {
       setError("Please choose ship");
     } else if (!direction) {
