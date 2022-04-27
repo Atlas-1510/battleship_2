@@ -10,7 +10,7 @@ import { Game } from "../../../interfaces/Game";
 
 const mockSetGame = jest.fn();
 
-const setupWithRealUI = (gameState: any) => {
+const setupWithRealUI = (gameState: Game | null) => {
   return render(
     <GameContext.Provider value={{ game: gameState, setGame: mockSetGame }}>
       <SetupContainer />
@@ -109,6 +109,134 @@ describe("SetupContainer", () => {
     expect(mockSetGame).toHaveBeenCalledWith(expectedGameState);
   });
 
+  test("Handles placement of ship when x coordinate is 0", () => {
+    setupWithRealUI(null);
+    triggerShipPlacement({
+      ship: {
+        type: "carrier",
+        length: 5,
+        hits: [],
+        alive: true,
+        location: [],
+      },
+      x: 0,
+      y: 1,
+      direction: "horizontal",
+    });
+    const expectedGameState: Game = {
+      playerOne: {
+        name: "Player One",
+        type: "human",
+        turn: false,
+      },
+      playerTwo: {
+        name: "Player Two",
+        type: "computer",
+        turn: false,
+      },
+      boardOne: {
+        recievedStrikes: [],
+        ships: [
+          {
+            type: "carrier",
+            length: 5,
+            hits: [],
+            alive: true,
+            location: [
+              {
+                x: 0,
+                y: 1,
+              },
+              {
+                x: 1,
+                y: 1,
+              },
+              {
+                x: 2,
+                y: 1,
+              },
+              {
+                x: 3,
+                y: 1,
+              },
+              {
+                x: 4,
+                y: 1,
+              },
+            ],
+          },
+        ],
+      },
+      boardTwo: { recievedStrikes: [], ships: [] },
+      moveCounter: 0,
+    };
+    expect(mockSetGame).toHaveBeenCalledWith(expectedGameState);
+  });
+
+  test("Handles placement of ship when y coordinate is 0", () => {
+    setupWithRealUI(null);
+    triggerShipPlacement({
+      ship: {
+        type: "carrier",
+        length: 5,
+        hits: [],
+        alive: true,
+        location: [],
+      },
+      x: 1,
+      y: 0,
+      direction: "vertical",
+    });
+    const expectedGameState: Game = {
+      playerOne: {
+        name: "Player One",
+        type: "human",
+        turn: false,
+      },
+      playerTwo: {
+        name: "Player Two",
+        type: "computer",
+        turn: false,
+      },
+      boardOne: {
+        recievedStrikes: [],
+        ships: [
+          {
+            type: "carrier",
+            length: 5,
+            hits: [],
+            alive: true,
+            location: [
+              {
+                x: 1,
+                y: 0,
+              },
+              {
+                x: 1,
+                y: 1,
+              },
+              {
+                x: 1,
+                y: 2,
+              },
+              {
+                x: 1,
+                y: 3,
+              },
+              {
+                x: 1,
+                y: 4,
+              },
+            ],
+          },
+        ],
+      },
+      boardTwo: { recievedStrikes: [], ships: [] },
+      moveCounter: 0,
+    };
+    expect(mockSetGame).toHaveBeenCalledWith(expectedGameState);
+  });
+
   test("If place ship off board horizontally, render error to user", async () => {
     setupWithRealUI(null);
     triggerShipPlacement({
@@ -149,5 +277,70 @@ describe("SetupContainer", () => {
       "Please place the ship entirely on the board"
     );
     expect(error).toBeInTheDocument();
+  });
+
+  test("If place ship that overlaps another ship, render error to user", async () => {
+    const initialGameState: Game = {
+      playerOne: {
+        name: "Player One",
+        type: "human",
+        turn: false,
+      },
+      playerTwo: {
+        name: "Player Two",
+        type: "computer",
+        turn: false,
+      },
+      boardOne: {
+        recievedStrikes: [],
+        ships: [
+          {
+            type: "carrier",
+            length: 5,
+            hits: [],
+            alive: true,
+            location: [
+              {
+                x: 1,
+                y: 1,
+              },
+              {
+                x: 2,
+                y: 1,
+              },
+              {
+                x: 3,
+                y: 1,
+              },
+              {
+                x: 4,
+                y: 1,
+              },
+              {
+                x: 5,
+                y: 1,
+              },
+            ],
+          },
+        ],
+      },
+      boardTwo: { recievedStrikes: [], ships: [] },
+      moveCounter: 0,
+    };
+    setupWithRealUI(initialGameState);
+    triggerShipPlacement({
+      ship: {
+        type: "battleship",
+        length: 4,
+        hits: [],
+        alive: true,
+        location: [],
+      },
+      x: 2,
+      y: 0,
+      direction: "vertical",
+    });
+    // const error = await screen.findByText("Ships cannot overlap");
+    // expect(error).toBeInTheDocument();
   });
 });

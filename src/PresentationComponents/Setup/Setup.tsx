@@ -62,8 +62,10 @@ const SetupPresentationComponent: FC<Props> = ({
     const { ship, x, y, direction } = shipPlacementState;
 
     const validateCoordinate = (coord: any) => {
-      if (!coord) {
-        setError("onSubmitShips recieved undefined coordinate");
+      if (typeof coord === "undefined") {
+        setError(
+          `onSubmitShips recieved undefined coordinate, x: ${x}, y: ${y}`
+        );
         return false;
       }
       if (typeof coord !== "number") {

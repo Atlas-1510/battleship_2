@@ -16,11 +16,12 @@ const SetupContainer = () => {
     if (
       !placement.ship ||
       !placement.direction ||
-      !placement.x ||
-      !placement.y
+      typeof placement.x === "undefined" ||
+      typeof placement.y === "undefined"
     ) {
       throw new Error("confirmShipPlacement called with missing input");
     }
+
     const gameState = game || generateGame();
 
     // add the ship placement to the gameboard
@@ -58,6 +59,9 @@ const SetupContainer = () => {
     });
 
     // validate the coordinates don't overlap other ships --> todo.
+    const placedShips = gameState.boardOne.ships;
+    // const allOccupiedCoordinates = placedShips.map((ship) => ship.location);
+    // console.log(allOccupiedCoordinates);
 
     const newShip = placement.ship;
     newShip.location = newShipCoordinates;

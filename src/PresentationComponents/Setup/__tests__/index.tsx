@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import SetupPresentationComponent from "..";
+import { ShipType } from "../../../interfaces/Ship";
+import { ShipPlacement } from "../../../interfaces/ShipPlacement";
 
 const mockConfirmShipPlacements = jest.fn();
 
@@ -17,6 +19,23 @@ const setup = (error?: string) => {
       confirmShipPlacement={mockConfirmShipPlacements}
     />
   );
+};
+
+const triggerShipPlacement = (placement: ShipPlacement) => {
+  if (!placement.ship) {
+    throw new Error("triggerShipPlacement missing ship type");
+  }
+  const shipInput = screen.getByTestId("ship-select");
+  const Xinput = screen.getByRole("spinbutton", { name: "X" });
+  const Yinput = screen.getByRole("spinbutton", { name: "Y" });
+  const submitButton = screen.getByRole("button", { name: "Submit" });
+  const directionSelector = screen.getByTestId("direction-select");
+
+  user.selectOptions(shipInput, placement.ship.type);
+  user.type(Xinput, `${placement.x}{ArrowLeft}{Backspace>2}`);
+  user.type(Yinput, `${placement.y}{ArrowLeft}{Backspace>2}`);
+  user.selectOptions(directionSelector, placement.direction);
+  user.click(submitButton);
 };
 
 describe("SetupPresentationComponent", () => {
@@ -88,5 +107,44 @@ describe("SetupPresentationComponent", () => {
       "Some error message from SetupContainer"
     );
     expect(error).toBeInTheDocument();
+  });
+
+  test("Handles when user places a ship with x coordinate equal to 0", () => {
+    setup();
+    triggerShipPlacement({
+      ship: {
+        type: "carrier",
+        length: 5,
+        hits: [],
+        alive: true,
+        location: [],
+      },
+      x: 0,
+      y: 1,
+      direction: "horizontal",
+    });
+    expect(mockConfirmShipPlacements.mock.calls.length).toBe(1);
+    expect(
+      screen.queryByText("onSubmitShips recieved undefined coordinate")
+    ).not.toBeInTheDocument();
+  });
+  test("Handles when user places a ship with y coordinate equal to 0", () => {
+    setup();
+    triggerShipPlacement({
+      ship: {
+        type: "carrier",
+        length: 5,
+        hits: [],
+        alive: true,
+        location: [],
+      },
+      x: 1,
+      y: 0,
+      direction: "horizontal",
+    });
+    expect(mockConfirmShipPlacements.mock.calls.length).toBe(1);
+    expect(
+      screen.queryByText("onSubmitShips recieved undefined coordinate")
+    ).not.toBeInTheDocument();
   });
 });
