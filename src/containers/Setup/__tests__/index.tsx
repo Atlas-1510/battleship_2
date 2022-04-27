@@ -38,6 +38,7 @@ const setup = (gameState: any, shipPlacement: any) => {
 describe("SetupContainer", () => {
   beforeEach(() => {
     generateGameSpy.mockClear();
+    mockSetGame.mockClear();
   });
   test("Renders mock UI", () => {
     setup(null, 12345);
