@@ -109,7 +109,7 @@ describe("SetupContainer", () => {
     expect(mockSetGame).toHaveBeenCalledWith(expectedGameState);
   });
 
-  test("If recieves ship placement that is not fully on the board, render error to user", async () => {
+  test("If place ship off board horizontally, render error to user", async () => {
     setupWithRealUI(null);
     triggerShipPlacement({
       ship: {
@@ -122,6 +122,27 @@ describe("SetupContainer", () => {
       x: 8,
       y: 1,
       direction: "horizontal",
+    });
+
+    const error = await screen.findByText(
+      "Please place the ship entirely on the board"
+    );
+    expect(error).toBeInTheDocument();
+  });
+
+  test("If place ship off board vertically, render error to user", async () => {
+    setupWithRealUI(null);
+    triggerShipPlacement({
+      ship: {
+        type: "carrier",
+        length: 5,
+        hits: [],
+        alive: true,
+        location: [],
+      },
+      x: 1,
+      y: 8,
+      direction: "vertical",
     });
 
     const error = await screen.findByText(
