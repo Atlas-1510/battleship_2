@@ -4,3 +4,5 @@
 Hierarchy of components: View -> Container -> PresentationComponent -> (other PresentationComponents)
 
 - Barrelized file directories (so everything named index but easy importing and tab structure)
+
+- test driven development, handling edge cases
