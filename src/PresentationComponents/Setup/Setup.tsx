@@ -1,9 +1,10 @@
-import { FC, useReducer, useState } from "react";
+import { FC, useEffect, useReducer, useState } from "react";
 import { Ship, shipTypesArray, ShipType } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 
 interface Props {
   confirmShipPlacement: (placement: ShipPlacement) => void;
+  confirmationError: string;
 }
 
 type ACTIONTYPE =
@@ -39,12 +40,21 @@ const initialShipPlacementState: ShipPlacement = {
   ship: null,
 };
 
-const SetupPresentationComponent: FC<Props> = ({ confirmShipPlacement }) => {
+const SetupPresentationComponent: FC<Props> = ({
+  confirmShipPlacement,
+  confirmationError,
+}) => {
   const [shipPlacementState, dispatch] = useReducer(
     shipPlacementReducer,
     initialShipPlacementState
   );
   const [error, setError] = useState<null | string>(null);
+
+  useEffect(() => {
+    if (confirmationError) {
+      setError(confirmationError);
+    }
+  }, [confirmationError]);
 
   const onSubmitShips = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

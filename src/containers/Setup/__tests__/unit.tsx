@@ -8,6 +8,8 @@ import { mocked } from "jest-mock";
 import { ShipPlacement } from "../../../interfaces/ShipPlacement";
 import { Game } from "../../../interfaces/Game";
 
+// RENDERS SETUP CONTAINER WITH A STUBBED OUT UI
+
 // Changing mock implementation in each test using this approach
 // (look at the answer from ThinkBonobo and Dayan Moreno Leon, currently second most upvoted)
 // Note in the Stack Overlfow comments, need to do '(importedModule as jest.Mock).mockReturnValue(...)'
@@ -23,7 +25,7 @@ jest.mock("../../../PresentationComponents/Setup", () => ({
 const mockSetGame = jest.fn();
 
 // shipPlacement argument is the data that is passed from the UI back to SetupContainer to be processed in confirmShipPlacement function
-const setup = (gameState: any, shipPlacement: any) => {
+const setupWithMockedUI = (gameState: any, shipPlacement: any) => {
   mocked(SetupPresentationComponent).mockImplementation((props) => (
     <button onClick={() => props.confirmShipPlacement(shipPlacement)}>
       mockSetupUI
@@ -60,16 +62,13 @@ describe("SetupContainer", () => {
     mockSetGame.mockClear();
   });
   test("Renders mock UI", () => {
-    setup(null, validCarrierPlacement);
+    setupWithMockedUI(null, validCarrierPlacement);
     const button = screen.getByText("mockSetupUI");
     expect(button).toBeInTheDocument();
   });
 
   test("If recieves valid ship placement, places ship and updates game state", () => {
-    // render setup with null game state, and pass a valid ship placement
-    // confirmShipPlacement will generate a game, add the ship, and call setGame with the new ship placement
-
-    setup(null, validCarrierPlacement);
+    setupWithMockedUI(null, validCarrierPlacement);
     triggerShipPlacementSubmission();
     const expectedGameState: Game = {
       playerOne: {

@@ -5,9 +5,11 @@ import { Game } from "../../interfaces/Game";
 import generateGame from "../../utilities/generateGame";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { Coordinate } from "../../interfaces/Coordinate";
+import { useState } from "react";
 
 const SetupContainer = () => {
   const { game, setGame } = useGameContext();
+  const [error, setError] = useState("");
 
   const confirmShipPlacement = (placement: ShipPlacement) => {
     // validate input
@@ -43,15 +45,15 @@ const SetupContainer = () => {
 
     // validate the coordinates are all on the board
     newShipCoordinates.forEach((coordinate) => {
-      if (coordinate.x > 9 || coordinate.x < 0) {
-        throw new Error(
-          `Tried to place ship off the board. X: ${coordinate.x}, Y: ${coordinate.y}`
-        );
-      }
-      if (coordinate.y > 9 || coordinate.y < 0) {
-        throw new Error(
-          `Tried to place ship off the board. X: ${coordinate.x}, Y: ${coordinate.y}`
-        );
+      if (
+        coordinate.x > 9 ||
+        coordinate.x < 0 ||
+        coordinate.y > 9 ||
+        coordinate.y < 0
+      ) {
+        setError("Please place the ship entirely on the board");
+
+        return;
       }
     });
 
@@ -68,7 +70,10 @@ const SetupContainer = () => {
 
   return (
     <>
-      <SetupPresentationComponent confirmShipPlacement={confirmShipPlacement} />
+      <SetupPresentationComponent
+        confirmationError={error}
+        confirmShipPlacement={confirmShipPlacement}
+      />
     </>
   );
 };

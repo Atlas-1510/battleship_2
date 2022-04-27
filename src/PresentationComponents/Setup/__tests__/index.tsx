@@ -10,9 +10,10 @@ const getYinput = () => screen.getByRole("spinbutton", { name: "Y" });
 const getSubmitButton = () => screen.getByRole("button", { name: "Submit" });
 const getDirectionSelector = () => screen.getByTestId("direction-select");
 
-const setup = () => {
+const setup = (error?: string) => {
   return render(
     <SetupPresentationComponent
+      confirmationError={error || ""}
       confirmShipPlacement={mockConfirmShipPlacements}
     />
   );
@@ -78,6 +79,14 @@ describe("SetupPresentationComponent", () => {
     const button = getSubmitButton();
     user.click(button);
     const error = await screen.findByText("Invalid value for coordinate input");
+    expect(error).toBeInTheDocument();
+  });
+
+  test("If confirmation error prop is provided, render the error to user", async () => {
+    setup("Some error message from SetupContainer");
+    const error = await screen.findByText(
+      "Some error message from SetupContainer"
+    );
     expect(error).toBeInTheDocument();
   });
 });
