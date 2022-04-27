@@ -1,10 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import SetupContainer from "..";
 import { GameContext } from "../../../contexts/Game";
-import * as generateGame from "../../../utilities/generateGame";
+
 import SetupPresentationComponent from "../../../PresentationComponents/Setup";
 import user from "@testing-library/user-event";
 import { mocked } from "jest-mock";
+import { ShipPlacement } from "../../../interfaces/ShipPlacement";
+import { Game } from "../../../interfaces/Game";
 
 // Changing mock implementation in each test using this approach
 // (look at the answer from ThinkBonobo and Dayan Moreno Leon, currently second most upvoted)
@@ -17,11 +19,6 @@ jest.mock("../../../PresentationComponents/Setup", () => ({
   __esModule: true,
   default: jest.fn(),
 }));
-
-// in the module that is being tested, this function is called as 'generateGame()'
-// but in the tests, to spy on it, it needed to be imported as an object with a method
-// so to call it (to get a blank game instance) use generateGame.default()
-const generateGameSpy = jest.spyOn(generateGame, "default");
 
 const mockSetGame = jest.fn();
 
@@ -39,27 +36,88 @@ const setup = (gameState: any, shipPlacement: any) => {
   );
 };
 
+const triggerShipPlacementSubmission = () => {
+  const button = screen.getByText("mockSetupUI");
+  user.click(button);
+};
+
+const validCarrierPlacement: ShipPlacement = {
+  ship: {
+    type: "carrier",
+    length: 5,
+    hits: [],
+    alive: true,
+    location: [],
+  },
+  x: 1,
+  y: 1,
+  direction: "horizontal",
+};
+
 describe("SetupContainer", () => {
   beforeEach(() => {
-    generateGameSpy.mockClear();
+    // generateGameSpy.mockClear();
     mockSetGame.mockClear();
   });
   test("Renders mock UI", () => {
-    setup(null, 12345);
+    setup(null, validCarrierPlacement);
     const button = screen.getByText("mockSetupUI");
     expect(button).toBeInTheDocument();
-    user.click(button);
   });
 
-  // This test is testing implementation, not functionality (checking if generateGame is called once)
-  // However, have kept it for future reference in case I need to spy on an imported function again for some reason.
-  test("Given no game context, calls generateGame function when ship placement is submitted", () => {
-    setup(null, 12345);
-    const button = screen.getByText("mockSetupUI");
-    user.click(button);
-    expect(generateGameSpy.mock.calls.length).toBe(1);
-    expect(mockSetGame.mock.calls.length).toBe(1);
-    const newGame = generateGame.default();
-    expect(mockSetGame).toHaveBeenCalledWith(newGame);
+  test("If recieves valid ship placement, places ship and updates game state", () => {
+    // render setup with null game state, and pass a valid ship placement
+    // confirmShipPlacement will generate a game, add the ship, and call setGame with the new ship placement
+
+    setup(null, validCarrierPlacement);
+    triggerShipPlacementSubmission();
+    const expectedGameState: Game = {
+      playerOne: {
+        name: "Player One",
+        type: "human",
+        turn: false,
+      },
+      playerTwo: {
+        name: "Player Two",
+        type: "computer",
+        turn: false,
+      },
+      boardOne: {
+        recievedStrikes: [],
+        ships: [
+          {
+            type: "carrier",
+            length: 5,
+            hits: [],
+            alive: true,
+            location: [
+              {
+                x: 1,
+                y: 1,
+              },
+              {
+                x: 2,
+                y: 1,
+              },
+              {
+                x: 3,
+                y: 1,
+              },
+              {
+                x: 4,
+                y: 1,
+              },
+              {
+                x: 5,
+                y: 1,
+              },
+            ],
+          },
+        ],
+      },
+      boardTwo: { recievedStrikes: [], ships: [] },
+      moveCounter: 0,
+    };
+    expect(mockSetGame).toHaveBeenCalledWith(expectedGameState);
   });
 });
