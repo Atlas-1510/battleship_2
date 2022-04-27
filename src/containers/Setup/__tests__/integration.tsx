@@ -340,7 +340,7 @@ describe("SetupContainer", () => {
       y: 0,
       direction: "vertical",
     });
-    // const error = await screen.findByText("Ships cannot overlap");
-    // expect(error).toBeInTheDocument();
+    const error = await screen.findByText("Ships cannot overlap each other");
+    expect(error).toBeInTheDocument();
   });
 });

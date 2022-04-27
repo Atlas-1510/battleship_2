@@ -1,7 +1,7 @@
 import { useGameContext } from "../../hooks/useGameContext";
-import { ShipType, Ship } from "../../interfaces/Ship";
+
 import SetupPresentationComponent from "../../PresentationComponents/Setup";
-import { Game } from "../../interfaces/Game";
+
 import generateGame from "../../utilities/generateGame";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { Coordinate } from "../../interfaces/Coordinate";
@@ -12,7 +12,6 @@ const SetupContainer = () => {
   const [error, setError] = useState("");
 
   const confirmShipPlacement = (placement: ShipPlacement) => {
-    // validate input
     if (
       !placement.ship ||
       !placement.direction ||
@@ -24,8 +23,6 @@ const SetupContainer = () => {
 
     const gameState = game || generateGame();
 
-    // add the ship placement to the gameboard
-    // generate the coordinates the ship will occupy
     const newShipCoordinates: Coordinate[] = [];
     const {
       ship: { length },
@@ -58,17 +55,30 @@ const SetupContainer = () => {
       }
     });
 
-    // validate the coordinates don't overlap other ships --> todo.
-    const placedShips = gameState.boardOne.ships;
-    // const allOccupiedCoordinates = placedShips.map((ship) => ship.location);
-    // console.log(allOccupiedCoordinates);
+    // validate the new ship won't overlap other ships
+    const occupiedTiles = gameState.boardOne.ships
+      .map((ship) => ship.location)
+      .flat();
+
+    let failOverlapValidation = false;
+
+    for (const coord of newShipCoordinates) {
+      for (const occupiedCoord of occupiedTiles) {
+        if (coord.x === occupiedCoord.x && coord.y === occupiedCoord.y) {
+          failOverlapValidation = true;
+        }
+      }
+    }
+
+    if (failOverlapValidation) {
+      setError("Ships cannot overlap each other");
+      return;
+    }
 
     const newShip = placement.ship;
     newShip.location = newShipCoordinates;
-
     gameState.boardOne.ships.push(newShip);
 
-    // update the game state
     setGame(gameState);
   };
 
