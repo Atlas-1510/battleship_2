@@ -1,20 +1,9 @@
 import { FC, useReducer, useState } from "react";
 import { Ship, shipTypesArray, ShipType } from "../../interfaces/Ship";
-
-interface ShipPlacement {
-  ship: Ship | null;
-  x: number;
-  y: number;
-  direction: "horizontal" | "vertical";
-}
+import { ShipPlacement } from "../../interfaces/ShipPlacement";
 
 interface Props {
-  confirmShipPlacement: (placement: {
-    ship: Ship;
-    x: number;
-    y: number;
-    direction: "horizontal" | "vertical";
-  }) => void;
+  confirmShipPlacement: (placement: ShipPlacement) => void;
 }
 
 type ACTIONTYPE =
