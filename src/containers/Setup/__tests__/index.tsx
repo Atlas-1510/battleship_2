@@ -4,6 +4,7 @@ import { GameContext } from "../../../contexts/Game";
 import * as generateGame from "../../../utilities/generateGame";
 import SetupPresentationComponent from "../../../PresentationComponents/Setup";
 import user from "@testing-library/user-event";
+import { mocked } from "jest-mock";
 
 // Changing mock implementation in each test using this approach
 // (look at the answer from ThinkBonobo and Dayan Moreno Leon, currently second most upvoted)
@@ -17,14 +18,17 @@ jest.mock("../../../PresentationComponents/Setup", () => ({
   default: jest.fn(),
 }));
 
+// in the module that is being tested, this function is called as 'generateGame()'
+// but in the tests, to spy on it, it needed to be imported as an object with a method
+// so to call it (to get a blank game instance) use generateGame.default()
 const generateGameSpy = jest.spyOn(generateGame, "default");
 
 const mockSetGame = jest.fn();
 
 // shipPlacement argument is the data that is passed from the UI back to SetupContainer to be processed in confirmShipPlacement function
 const setup = (gameState: any, shipPlacement: any) => {
-  (SetupPresentationComponent as jest.Mock).mockImplementation((props) => (
-    <button onClick={props.confirmShipPlacement(shipPlacement)}>
+  mocked(SetupPresentationComponent).mockImplementation((props) => (
+    <button onClick={() => props.confirmShipPlacement(shipPlacement)}>
       mockSetupUI
     </button>
   ));
@@ -47,9 +51,13 @@ describe("SetupContainer", () => {
     user.click(button);
   });
 
+  // This test is testing implementation, not functionality (checking if generateGame is called once)
+  // However, have kept it for future reference in case I need to spy on an imported function again for some reason.
   test("Given no game context, calls generateGame function when ship placement is submitted", () => {
     setup(null, 12345);
-    expect((generateGameSpy as jest.Mock).mock.calls.length).toBe(1);
+    const button = screen.getByText("mockSetupUI");
+    user.click(button);
+    expect(generateGameSpy.mock.calls.length).toBe(1);
     expect(mockSetGame.mock.calls.length).toBe(1);
     const newGame = generateGame.default();
     expect(mockSetGame).toHaveBeenCalledWith(newGame);
