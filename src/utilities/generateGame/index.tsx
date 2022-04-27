@@ -1,7 +1,7 @@
 import { Game } from "../../interfaces/Game";
 import { Player } from "../../interfaces/Player";
 import { Board } from "../../interfaces/Board";
-export function generateGame(): Game {
+export default function generateGame(): Game {
   const playerOne: Player = {
     name: "Player One",
     type: "human",
