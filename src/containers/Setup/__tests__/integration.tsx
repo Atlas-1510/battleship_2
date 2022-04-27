@@ -342,5 +342,7 @@ describe("SetupContainer", () => {
     });
     const error = await screen.findByText("Ships cannot overlap each other");
     expect(error).toBeInTheDocument();
+    // Checking that the setGame state updater was not called in response to the invalid ship placement request
+    expect(mockSetGame).not.toHaveBeenCalled();
   });
 });
