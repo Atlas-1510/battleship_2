@@ -1,12 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import SetupPresentationComponent from "..";
+import generateGame from "../../../utilities/generateGame";
 
 const mockConfirmShipPlacements = jest.fn();
 
 const setup = (error?: string) => {
   return render(
     <SetupPresentationComponent
+      board={generateGame().boardOne}
       confirmationError={error || ""}
       confirmShipPlacement={mockConfirmShipPlacements}
     />
