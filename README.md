@@ -6,3 +6,5 @@ Hierarchy of components: View -> Container -> PresentationComponent -> (other Pr
 - Barrelized file directories (so everything named index but easy importing and tab structure)
 
 - test driven development, handling edge cases
+
+- naming things problem. 'Board' presentation component vs 'Board' interface.
