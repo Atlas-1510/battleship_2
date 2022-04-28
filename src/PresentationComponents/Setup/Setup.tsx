@@ -22,10 +22,15 @@ const SetupPresentationComponent: FC<Props> = ({
   updateDirection,
   confirmShipPlacement,
 }) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    confirmShipPlacement();
+  };
+
   return (
     <>
       <h1>Place your ships</h1>
-      <form onSubmit={confirmShipPlacement}>
+      <form onSubmit={handleFormSubmit}>
         <label htmlFor="ship-select">Ship</label>
         <input
           type="text"
