@@ -1,46 +1,133 @@
-import { useGameContext } from "../../hooks/useGameContext";
-
-import SetupPresentationComponent from "../../PresentationComponents/Setup";
-
-import generateGame from "../../utilities/generateGame";
+import { useReducer, useState } from "react";
+import { Board } from "../../interfaces/Board";
+import { ShipType, Ship } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { Coordinate } from "../../interfaces/Coordinate";
-import { useEffect, useState } from "react";
+import SetupPresentationComponent from "../../PresentationComponents/Setup";
 
-const SetupContainer = () => {
-  const { game, setGame } = useGameContext();
+const Setup = () => {
+  const initialFormState: ShipPlacement = {
+    x: -1,
+    y: -1,
+    direction: "horizontal",
+    ship: "carrier",
+  };
+
+  const initialBoardState: Board = {
+    recievedStrikes: [],
+    ships: [],
+  };
+
+  type ACTIONTYPE =
+    | { type: "changeShip"; payload: ShipType }
+    | { type: "changeCoordinate"; payload: { axis: "x" | "y"; value: number } }
+    | { type: "changeDirection"; payload: "horizontal" | "vertical" };
+
+  const formStateReducer = (state: ShipPlacement, action: ACTIONTYPE) => {
+    switch (action.type) {
+      case "changeShip":
+        return { ...state, ship: action.payload };
+      case "changeCoordinate":
+        if (action.payload.axis === "x") {
+          return { ...state, x: action.payload.value };
+        } else if (action.payload.axis === "y") {
+          return { ...state, y: action.payload.value };
+        } else {
+          throw new Error("invalid axis in updateCoordinate");
+        }
+      case "changeDirection":
+        return { ...state, direction: action.payload };
+
+      default:
+        throw new Error(
+          "Reducer in Setup presentation component recieved invalid action type"
+        );
+    }
+  };
+
+  const [form, dispatch] = useReducer(formStateReducer, initialFormState);
+  const [board, setBoard] = useState(initialBoardState);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (!game) {
-      setGame(generateGame());
-    }
-  }, [game, setGame]);
+  const confirmShipPlacement = () => {
+    setError("");
+    const _validateInputs = (input: ShipPlacement) => {
+      const validateCoordinate = (coord: any) => {
+        if (typeof coord === "undefined") {
+          setError(
+            `onSubmitShips recieved undefined coordinate, x: ${x}, y: ${y}`
+          );
+          return false;
+        }
+        if (typeof coord !== "number") {
+          setError("Invalid type for coordinate input");
+          return false;
+        }
+        if (coord > 9 || coord < 0) {
+          setError("Invalid value for coordinate input");
+          return false;
+        }
+        return true;
+      };
+      if (!validateCoordinate(x) || !validateCoordinate(y)) {
+        return;
+      }
+      if (!ship) {
+        setError("Please choose ship");
+      } else if (!direction) {
+        setError("Please choose direction");
+      }
+    };
+    const _generateShip = (formInput: ShipType): Ship => {
+      const newShip: Ship = {
+        type: formInput,
+        hits: [],
+        location: [],
+        alive: true,
+        length: 0,
+      };
 
-  const confirmShipPlacement = (placement: ShipPlacement) => {
-    if (!game) {
+      switch (formInput) {
+        case "carrier":
+          newShip.length = 5;
+          break;
+        case "battleship":
+          newShip.length = 4;
+          break;
+        case "cruiser":
+          newShip.length = 3;
+          break;
+        case "submarine":
+          newShip.length = 3;
+          break;
+        case "patrolBoat":
+          newShip.length = 2;
+          break;
+        default:
+          throw new Error(
+            "generateShip recieved invalid shipType in switch block"
+          );
+      }
+
+      return newShip;
+    };
+
+    if (!board) {
       throw new Error(
-        "confirmShipPlacement called when game has not been initialised"
+        "confirmShipPlacement called when board has not been initialised"
       );
     }
-    if (
-      !placement.ship ||
-      !placement.direction ||
-      typeof placement.x === "undefined" ||
-      typeof placement.y === "undefined"
-    ) {
-      throw new Error("confirmShipPlacement called with missing input");
+    _validateInputs(form);
+    const { ship: shipType, x, y, direction } = form;
+    if (!shipType) {
+      throw new Error("confirmShipPlacement called while ship is falsy");
     }
 
-    const newShipCoordinates: Coordinate[] = [];
-    const {
-      ship: { length },
-      direction,
-      x,
-      y,
-    } = placement;
+    const ship = _generateShip(shipType);
 
-    for (let i = 0; i < length; i++) {
+    const newShipCoordinates: Coordinate[] = [];
+
+    for (let i = 0; i < ship.length; i++) {
       if (direction === "horizontal") {
         let newCoordinate = { x: x + i, y: y };
         newShipCoordinates.push(newCoordinate);
@@ -59,15 +146,12 @@ const SetupContainer = () => {
         coordinate.y < 0
       ) {
         setError("Please place the ship entirely on the board");
-
         return;
       }
     });
 
     // validate the new ship won't overlap other ships
-    const occupiedTiles = game.boardOne.ships
-      .map((ship) => ship.location)
-      .flat();
+    const occupiedTiles = board.ships.map((ship) => ship.location).flat();
 
     let failOverlapValidation = false;
 
@@ -84,24 +168,33 @@ const SetupContainer = () => {
       return;
     }
 
-    const newShip = placement.ship;
-    newShip.location = newShipCoordinates;
-    const newGameState = Object.assign({}, game);
-    newGameState.boardOne.ships.push(newShip);
+    // Validation passed - update board with ship
+    ship.location = newShipCoordinates;
+    const newBoardState = Object.assign({}, board);
+    newBoardState.ships.push(ship);
 
-    setGame(newGameState);
+    setBoard(newBoardState);
   };
 
   return (
     <>
-      {game ? (
-        <SetupPresentationComponent
-          confirmationError={error}
-          confirmShipPlacement={confirmShipPlacement}
-          board={game.boardOne}
-        />
-      ) : null}
+      <SetupPresentationComponent
+        error={error}
+        updateFormShip={(ship: ShipType) =>
+          dispatch({ type: "changeShip", payload: ship })
+        }
+        updateCoordinate={(axis: "x" | "y", value: number) =>
+          dispatch({ type: "changeCoordinate", payload: { axis, value } })
+        }
+        updateDirection={(direction: "horizontal" | "vertical") =>
+          dispatch({ type: "changeDirection", payload: direction })
+        }
+        confirmShipPlacement={confirmShipPlacement}
+        formState={form}
+        board={initialBoardState}
+      />
     </>
   );
 };
-export default SetupContainer;
+
+export default Setup;
