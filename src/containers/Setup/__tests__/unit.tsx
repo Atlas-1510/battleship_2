@@ -7,6 +7,7 @@ import user from "@testing-library/user-event";
 import { mocked } from "jest-mock";
 import { ShipPlacement } from "../../../interfaces/ShipPlacement";
 import { Game } from "../../../interfaces/Game";
+import generateGame from "../../../utilities/generateGame";
 
 // RENDERS SETUP CONTAINER WITH A STUBBED OUT UI
 
@@ -62,13 +63,15 @@ describe("SetupContainer", () => {
     mockSetGame.mockClear();
   });
   test("Renders mock UI", () => {
-    setupWithMockedUI(null, validCarrierPlacement);
+    const newGame = generateGame();
+    setupWithMockedUI(newGame, validCarrierPlacement);
     const button = screen.getByText("mockSetupUI");
     expect(button).toBeInTheDocument();
   });
 
   test("If recieves valid ship placement, places ship and updates game state", () => {
-    setupWithMockedUI(null, validCarrierPlacement);
+    const newGame = generateGame();
+    setupWithMockedUI(newGame, validCarrierPlacement);
     triggerShipPlacementSubmission();
     const expectedGameState: Game = {
       playerOne: {

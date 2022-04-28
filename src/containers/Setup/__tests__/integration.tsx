@@ -5,6 +5,7 @@ import user from "@testing-library/user-event";
 
 import { ShipPlacement } from "../../../interfaces/ShipPlacement";
 import { Game } from "../../../interfaces/Game";
+import generateGame from "../../../utilities/generateGame";
 
 // RENDERS SETUP CONTAINER WITH SETUP PRESENTATION COMPONENT
 
@@ -39,14 +40,27 @@ describe("SetupContainer", () => {
   beforeEach(() => {
     mockSetGame.mockClear();
   });
-  test("Renders actual UI", () => {
-    setupWithRealUI(null);
+
+  test("Given game state, renders actual UI", () => {
+    const newGame = generateGame();
+    setupWithRealUI(newGame);
     const title = screen.getByText("Place your ships");
     expect(title).toBeInTheDocument();
   });
 
-  test("If recieves valid ship placement, places ship and updates game state", () => {
+  // When setupContainer is invoked, no game has been initialised. So it must generate a new one.
+  // Note, because setGame is mocked the call to setGame with the newly initialised game wont cause game state to actually change
+  // Which means the UI won't render for this test (so cant test if 'place your ships' is on the screen)
+  test("Given no game state, generates a new game", () => {
+    const newGame = generateGame();
     setupWithRealUI(null);
+    expect(mockSetGame).toHaveBeenCalledTimes(1);
+    expect(mockSetGame).toHaveBeenCalledWith(newGame);
+  });
+
+  test("If recieves valid ship placement, places ship and updates game state", () => {
+    const newGame = generateGame();
+    setupWithRealUI(newGame);
     triggerShipPlacement({
       ship: {
         type: "carrier",
@@ -110,7 +124,8 @@ describe("SetupContainer", () => {
   });
 
   test("Handles placement of ship when x coordinate is 0", () => {
-    setupWithRealUI(null);
+    const newGame = generateGame();
+    setupWithRealUI(newGame);
     triggerShipPlacement({
       ship: {
         type: "carrier",
@@ -174,7 +189,8 @@ describe("SetupContainer", () => {
   });
 
   test("Handles placement of ship when y coordinate is 0", () => {
-    setupWithRealUI(null);
+    const newGame = generateGame();
+    setupWithRealUI(newGame);
     triggerShipPlacement({
       ship: {
         type: "carrier",
@@ -238,7 +254,8 @@ describe("SetupContainer", () => {
   });
 
   test("If place ship off board horizontally, render error to user", async () => {
-    setupWithRealUI(null);
+    const newGame = generateGame();
+    setupWithRealUI(newGame);
     triggerShipPlacement({
       ship: {
         type: "carrier",
@@ -259,7 +276,8 @@ describe("SetupContainer", () => {
   });
 
   test("If place ship off board vertically, render error to user", async () => {
-    setupWithRealUI(null);
+    const newGame = generateGame();
+    setupWithRealUI(newGame);
     triggerShipPlacement({
       ship: {
         type: "carrier",

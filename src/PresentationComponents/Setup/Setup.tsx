@@ -1,10 +1,13 @@
 import { FC, useEffect, useReducer, useState } from "react";
+import { Board } from "../../interfaces/Board";
 import { Ship, shipTypesArray, ShipType } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
+import GameBoard from "../GameBoard";
 
 interface Props {
   confirmShipPlacement: (placement: ShipPlacement) => void;
   confirmationError: string;
+  board: Board;
 }
 
 type ACTIONTYPE =
@@ -43,6 +46,7 @@ const initialShipPlacementState: ShipPlacement = {
 const SetupPresentationComponent: FC<Props> = ({
   confirmShipPlacement,
   confirmationError,
+  board,
 }) => {
   const [shipPlacementState, dispatch] = useReducer(
     shipPlacementReducer,
@@ -206,6 +210,7 @@ const SetupPresentationComponent: FC<Props> = ({
         <button type="submit">Submit</button>
       </form>
       {error ? <p>{error}</p> : null}
+      <GameBoard board={board} />
     </>
   );
 };

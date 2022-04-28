@@ -5,13 +5,24 @@ import SetupPresentationComponent from "../../PresentationComponents/Setup";
 import generateGame from "../../utilities/generateGame";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { Coordinate } from "../../interfaces/Coordinate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SetupContainer = () => {
   const { game, setGame } = useGameContext();
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (!game) {
+      setGame(generateGame());
+    }
+  }, [game, setGame]);
+
   const confirmShipPlacement = (placement: ShipPlacement) => {
+    if (!game) {
+      throw new Error(
+        "confirmShipPlacement called when game has not been initialised"
+      );
+    }
     if (
       !placement.ship ||
       !placement.direction ||
@@ -20,8 +31,6 @@ const SetupContainer = () => {
     ) {
       throw new Error("confirmShipPlacement called with missing input");
     }
-
-    const gameState = game || generateGame();
 
     const newShipCoordinates: Coordinate[] = [];
     const {
@@ -56,7 +65,7 @@ const SetupContainer = () => {
     });
 
     // validate the new ship won't overlap other ships
-    const occupiedTiles = gameState.boardOne.ships
+    const occupiedTiles = game.boardOne.ships
       .map((ship) => ship.location)
       .flat();
 
@@ -77,17 +86,21 @@ const SetupContainer = () => {
 
     const newShip = placement.ship;
     newShip.location = newShipCoordinates;
-    gameState.boardOne.ships.push(newShip);
+    const newGameState = Object.assign({}, game);
+    newGameState.boardOne.ships.push(newShip);
 
-    setGame(gameState);
+    setGame(newGameState);
   };
 
   return (
     <>
-      <SetupPresentationComponent
-        confirmationError={error}
-        confirmShipPlacement={confirmShipPlacement}
-      />
+      {game ? (
+        <SetupPresentationComponent
+          confirmationError={error}
+          confirmShipPlacement={confirmShipPlacement}
+          board={game.boardOne}
+        />
+      ) : null}
     </>
   );
 };
