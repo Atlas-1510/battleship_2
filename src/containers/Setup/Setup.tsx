@@ -5,7 +5,7 @@ import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { Coordinate } from "../../interfaces/Coordinate";
 import SetupPresentationComponent from "../../PresentationComponents/Setup";
 
-const Setup = () => {
+const SetupContainer = () => {
   const initialFormState: ShipPlacement = {
     x: -1,
     y: -1,
@@ -197,4 +197,4 @@ const Setup = () => {
   );
 };
 
-export default Setup;
+export default SetupContainer;
