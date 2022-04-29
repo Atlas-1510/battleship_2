@@ -52,10 +52,10 @@ const GameBoard: FC<Props> = ({ board }) => {
   }
 
   return (
-    <>
+    <div data-testid="gameboard">
       <h1>Gameboard</h1>
       <BoardContainer>{grid.map((tile) => tile)}</BoardContainer>
-    </>
+    </div>
   );
 };
 
