@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Board } from "../../interfaces/Board";
+import { BoardContainer, OccupiedTileContainer, TileContainer } from "./styles";
 
 interface Props {
   board: Board;
@@ -18,30 +19,42 @@ const GameBoard: FC<Props> = ({ board }) => {
     )
     .flat();
 
-  for (let x = 0; x < 10; x++) {
-    for (let y = 0; y < 10; y++) {
+  for (let y = 0; y < 10; y++) {
+    for (let x = 0; x < 10; x++) {
       let occupiedCoordinate = occupiedCoordinates.filter(
         (coord) => coord.x === x && coord.y === y
       )[0];
-
-      grid.push(
-        <div
-          key={`${x},${y}`}
-          data-x={x}
-          data-y={y}
-          data-testid={`${x},${y}`}
-          data-ship={occupiedCoordinate ? occupiedCoordinate.ship : ""}
-        >
-          {x},{y}
-        </div>
-      );
+      if (occupiedCoordinate) {
+        grid.push(
+          <OccupiedTileContainer
+            key={`${x},${y}`}
+            data-x={x}
+            data-y={y}
+            data-testid={`${x},${y}`}
+            data-ship={occupiedCoordinate.ship}
+          >
+            {x},{y}
+          </OccupiedTileContainer>
+        );
+      } else {
+        grid.push(
+          <TileContainer
+            key={`${x},${y}`}
+            data-x={x}
+            data-y={y}
+            data-testid={`${x},${y}`}
+          >
+            {x},{y}
+          </TileContainer>
+        );
+      }
     }
   }
 
   return (
     <>
       <h1>Gameboard</h1>
-      <div>{grid.map((tile) => tile)}</div>
+      <BoardContainer>{grid.map((tile) => tile)}</BoardContainer>
     </>
   );
 };
