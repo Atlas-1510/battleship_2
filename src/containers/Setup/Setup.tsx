@@ -3,7 +3,6 @@ import { Board } from "../../interfaces/Board";
 import { ShipType, Ship } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { Coordinate } from "../../interfaces/Coordinate";
-import SetupView from "../../views/Setup/SetupView";
 import SetupPresentationComponent from "../../PresentationComponents/Setup";
 import GameBoardPresentationComponent from "../../PresentationComponents/GameBoard/index";
 
@@ -184,7 +183,7 @@ const SetupContainer = () => {
   };
 
   return (
-    <SetupView>
+    <>
       <SetupPresentationComponent
         error={error}
         updateFormShip={(ship: ShipType) =>
@@ -200,7 +199,7 @@ const SetupContainer = () => {
         formState={form}
       />
       <GameBoardPresentationComponent board={board} />
-    </SetupView>
+    </>
   );
 };
 
