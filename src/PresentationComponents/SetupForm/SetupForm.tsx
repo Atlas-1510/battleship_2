@@ -102,7 +102,11 @@ const SetupFormPresentationComponent: FC<Props> = ({
         <button type="submit">Submit</button>
       </form>
       {error ? <p>{error}</p> : null}
-      <BattleshipContainer>
+      <BattleshipContainer
+        onClick={() => {
+          updateFormShip("battleship");
+        }}
+      >
         <Image src={battleship} alt="battleship" />
       </BattleshipContainer>
     </div>

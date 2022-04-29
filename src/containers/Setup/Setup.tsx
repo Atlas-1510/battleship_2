@@ -199,7 +199,12 @@ const SetupContainer = () => {
         confirmShipPlacement={confirmShipPlacement}
         formState={form}
       />
-      <GameBoardPresentationComponent board={board} />
+      <GameBoardPresentationComponent
+        board={board}
+        updateCoordinate={(axis: "x" | "y", value: number) =>
+          dispatch({ type: "changeCoordinate", payload: { axis, value } })
+        }
+      />
     </SetupView>
   );
 };

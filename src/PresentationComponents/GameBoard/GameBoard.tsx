@@ -4,9 +4,10 @@ import { BoardContainer, OccupiedTileContainer, TileContainer } from "./styles";
 
 interface Props {
   board: Board;
+  updateCoordinate: (axis: "x" | "y", value: number) => void;
 }
 
-const GameBoard: FC<Props> = ({ board }) => {
+const GameBoard: FC<Props> = ({ board, updateCoordinate }) => {
   const grid: JSX.Element[] = [];
 
   const occupiedCoordinates = board.ships
@@ -43,6 +44,10 @@ const GameBoard: FC<Props> = ({ board }) => {
             data-x={x}
             data-y={y}
             data-testid={`${x},${y}`}
+            onClick={() => {
+              updateCoordinate("x", x);
+              updateCoordinate("y", y);
+            }}
           >
             {x},{y}
           </TileContainer>
