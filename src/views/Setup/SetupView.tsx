@@ -1,11 +1,12 @@
-import SetupContainer from "../../containers/Setup";
+import { ReactNode, FC } from "react";
+import { Container } from "./styles";
 
-const SetupView = () => {
-  return (
-    <>
-      <SetupContainer />
-    </>
-  );
+interface Props {
+  children: ReactNode;
+}
+
+const SetupView: FC<Props> = ({ children }) => {
+  return <Container>{children}</Container>;
 };
 
 export default SetupView;

@@ -25,7 +25,7 @@ const SetupFormPresentationComponent: FC<Props> = ({
   };
 
   return (
-    <>
+    <div>
       <h1>Place your ships</h1>
       <form onSubmit={handleFormSubmit}>
         <label htmlFor="ship-select">Ship</label>
@@ -100,7 +100,7 @@ const SetupFormPresentationComponent: FC<Props> = ({
         <button type="submit">Submit</button>
       </form>
       {error ? <p>{error}</p> : null}
-    </>
+    </div>
   );
 };
 
