@@ -70,13 +70,16 @@ const SetupContainer = () => {
         return true;
       };
       if (!validateCoordinate(input.x) || !validateCoordinate(input.y)) {
-        return;
+        return false;
       }
       if (!input.ship) {
         setError("Please choose ship");
+        return false;
       } else if (!input.direction) {
         setError("Please choose direction");
+        return false;
       }
+      return true;
     };
     const _generateShip = (formInput: ShipType): Ship => {
       const newShip: Ship = {
@@ -117,7 +120,9 @@ const SetupContainer = () => {
         "confirmShipPlacement called when board has not been initialised"
       );
     }
-    _validateInputs(form);
+    if (!_validateInputs(form)) {
+      return;
+    }
     const { ship: shipType, x, y, direction } = form;
     if (!shipType) {
       throw new Error("confirmShipPlacement called while ship is falsy");
