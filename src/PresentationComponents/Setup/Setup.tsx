@@ -52,6 +52,9 @@ const SetupPresentationComponent: FC<Props> = ({
             onChange={(e) => updateCoordinate("x", parseInt(e.target.value))}
             value={formState.x || ""}
           >
+            <option value={-1} disabled>
+              Please select X
+            </option>
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -70,6 +73,9 @@ const SetupPresentationComponent: FC<Props> = ({
             onChange={(e) => updateCoordinate("y", parseInt(e.target.value))}
             value={formState.y || ""}
           >
+            <option value={-1} disabled>
+              Please select Y
+            </option>
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
