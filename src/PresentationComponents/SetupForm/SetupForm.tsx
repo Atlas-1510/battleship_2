@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { ShipType } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
+import battleship from "../../assets/images/battleship.png";
+import { BattleshipContainer, Image } from "./styles";
 
 interface Props {
   formState: ShipPlacement;
@@ -100,6 +102,9 @@ const SetupFormPresentationComponent: FC<Props> = ({
         <button type="submit">Submit</button>
       </form>
       {error ? <p>{error}</p> : null}
+      <BattleshipContainer>
+        <Image src={battleship} alt="battleship" />
+      </BattleshipContainer>
     </div>
   );
 };
