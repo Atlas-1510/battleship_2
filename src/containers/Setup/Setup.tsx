@@ -55,7 +55,7 @@ const SetupContainer = () => {
       const validateCoordinate = (coord: any) => {
         if (typeof coord === "undefined") {
           setError(
-            `onSubmitShips recieved undefined coordinate, x: ${x}, y: ${y}`
+            `onSubmitShips recieved undefined coordinate, x: ${input.x}, y: ${input.y}`
           );
           return false;
         }
@@ -69,12 +69,12 @@ const SetupContainer = () => {
         }
         return true;
       };
-      if (!validateCoordinate(x) || !validateCoordinate(y)) {
+      if (!validateCoordinate(input.x) || !validateCoordinate(input.y)) {
         return;
       }
-      if (!ship) {
+      if (!input.ship) {
         setError("Please choose ship");
-      } else if (!direction) {
+      } else if (!input.direction) {
         setError("Please choose direction");
       }
     };
@@ -191,7 +191,7 @@ const SetupContainer = () => {
         }
         confirmShipPlacement={confirmShipPlacement}
         formState={form}
-        board={initialBoardState}
+        board={board}
       />
     </>
   );
