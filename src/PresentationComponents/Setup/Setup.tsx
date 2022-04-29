@@ -68,6 +68,7 @@ const SetupPresentationComponent: FC<Props> = ({
             updateDirection(e.target.value as "horizontal" | "vertical")
           }
         ></input>
+        <button type="submit">Submit</button>
       </form>
       {error ? <p>{error}</p> : null}
       <GameBoard board={board} />
