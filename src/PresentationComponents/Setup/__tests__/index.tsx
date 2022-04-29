@@ -1,110 +1,89 @@
 import { render, screen } from "@testing-library/react";
+import { Board } from "../../../interfaces/Board";
 import user from "@testing-library/user-event";
 import SetupPresentationComponent from "..";
 import generateGame from "../../../utilities/generateGame";
+import { ShipPlacement } from "../../../interfaces/ShipPlacement";
+import { Ship } from "../../../interfaces/Ship";
 
-const mockConfirmShipPlacements = jest.fn();
+const initBoardState: Board = {
+  recievedStrikes: [],
+  ships: [],
+};
 
-const setup = (error?: string) => {
+const initFormState: ShipPlacement = {
+  x: -1,
+  y: -1,
+  direction: "horizontal",
+  ship: "carrier",
+};
+
+const setup = (boardState?: Board, error?: string) => {
+  const initBoardState: Board = {
+    recievedStrikes: [],
+    ships: [],
+  };
+
   return render(
     <SetupPresentationComponent
-      board={generateGame().boardOne}
-      confirmationError={error || ""}
-      confirmShipPlacement={mockConfirmShipPlacements}
+      board={boardState || initBoardState}
+      formState={initFormState}
+      updateFormShip={jest.fn()}
+      updateCoordinate={jest.fn()}
+      updateDirection={jest.fn()}
+      error={null}
+      confirmShipPlacement={jest.fn()}
     />
   );
 };
 
-const triggerShipPlacement = (
-  shipType: string | null,
-  x: number | null,
-  y: number | null,
-  direction: string | null
-) => {
-  const shipInput = screen.getByTestId("ship-select");
-  const Xinput = screen.getByRole("spinbutton", { name: "X" });
-  const Yinput = screen.getByRole("spinbutton", { name: "Y" });
-  const submitButton = screen.getByRole("button", { name: "Submit" });
-  const directionSelector = screen.getByTestId("direction-select");
-
-  if (shipType) {
-    user.selectOptions(shipInput, shipType);
-  }
-  if (x || x === 0) {
-    user.type(Xinput, `${x}{ArrowLeft}{Backspace>2}`);
-  }
-  if (y || y === 0) {
-    user.type(Yinput, `${y}{ArrowLeft}{Backspace>2}`);
-  }
-  if (direction) {
-    user.selectOptions(directionSelector, direction);
-  }
-  user.click(submitButton);
-};
-
 describe("SetupPresentationComponent", () => {
-  test("Renders UI", () => {
+  test("Renders gameboard with correct axis lengths (zero through nine, not one through 10)", () => {
     setup();
-
-    const button = screen.getByRole("button", { name: "Submit" });
-    expect(button).toBeInTheDocument();
-    const Xinput = screen.getByRole("spinbutton", { name: "X" });
-    expect(Xinput).toBeInTheDocument();
-    const Yinput = screen.getByRole("spinbutton", { name: "Y" });
-    expect(Yinput).toBeInTheDocument();
+    expect(screen.getByTestId("0,0")).toBeInTheDocument();
+    expect(screen.getByTestId("9,9")).toBeInTheDocument();
+    expect(screen.queryByTestId("10,10")).not.toBeInTheDocument();
   });
+  test("Renders placed ship on board", () => {
+    const placedShip: Ship = {
+      type: "carrier",
+      length: 5,
+      hits: [],
+      alive: true,
+      location: [
+        {
+          x: 1,
+          y: 1,
+        },
+        {
+          x: 2,
+          y: 1,
+        },
+        {
+          x: 3,
+          y: 1,
+        },
+        {
+          x: 4,
+          y: 1,
+        },
+        {
+          x: 5,
+          y: 1,
+        },
+      ],
+    };
+    const boardWithShip: Board = {
+      recievedStrikes: [],
+      ships: [placedShip],
+    };
+    setup(boardWithShip);
 
-  test("When form is submitted, confirmShipPlacements function is called with correct arguments", () => {
-    setup();
-    triggerShipPlacement("carrier", 1, 2, "horizontal");
-
-    expect(mockConfirmShipPlacements.mock.calls.length).toBe(1);
-    expect(mockConfirmShipPlacements.mock.calls[0][0].ship.type).toBe(
-      "carrier"
-    );
-    expect(mockConfirmShipPlacements.mock.calls[0][0].x).toBe(1);
-    expect(mockConfirmShipPlacements.mock.calls[0][0].y).toBe(2);
-    expect(mockConfirmShipPlacements.mock.calls[0][0].direction).toBe(
-      "horizontal"
-    );
-  });
-
-  test("If try to submit without selecting ship, render error to user", async () => {
-    setup();
-    triggerShipPlacement(null, 5, 5, "horizontal");
-    const error = await screen.findByText("Please choose ship");
-    expect(error).toBeInTheDocument();
-  });
-
-  test("If try to submit with invalid coordinates, render error to user", async () => {
-    setup();
-    triggerShipPlacement("carrier", null, null, "horizontal");
-    const error = await screen.findByText("Invalid value for coordinate input");
-    expect(error).toBeInTheDocument();
-  });
-
-  test("If confirmation error prop is provided, render the error to user", async () => {
-    setup("Some error message from SetupContainer");
-    const error = await screen.findByText(
-      "Some error message from SetupContainer"
-    );
-    expect(error).toBeInTheDocument();
-  });
-
-  test("Handles when user places a ship with x coordinate equal to 0", () => {
-    setup();
-    triggerShipPlacement("carrier", 0, 1, "horizontal");
-    expect(mockConfirmShipPlacements.mock.calls.length).toBe(1);
-    expect(
-      screen.queryByText("onSubmitShips recieved undefined coordinate")
-    ).not.toBeInTheDocument();
-  });
-  test("Handles when user places a ship with y coordinate equal to 0", () => {
-    setup();
-    triggerShipPlacement("carrier", 1, 0, "horizontal");
-    expect(mockConfirmShipPlacements.mock.calls.length).toBe(1);
-    expect(
-      screen.queryByText("onSubmitShips recieved undefined coordinate")
-    ).not.toBeInTheDocument();
+    const tile_X1_Y1 = screen.getByTestId("1,1");
+    const tile_X5_Y1 = screen.getByTestId("5,1");
+    expect(tile_X1_Y1).toBeInTheDocument();
+    expect(tile_X5_Y1).toBeInTheDocument();
+    expect(tile_X1_Y1.getAttribute("data-ship")).toBe("carrier");
+    expect(tile_X5_Y1.getAttribute("data-ship")).toBe("carrier");
   });
 });

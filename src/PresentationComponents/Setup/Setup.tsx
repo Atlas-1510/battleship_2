@@ -2,6 +2,7 @@ import { FC } from "react";
 import { ShipType } from "../../interfaces/Ship";
 import { Board } from "../../interfaces/Board";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
+import GameBoard from "../GameBoard";
 
 interface Props {
   board: Board;
@@ -69,6 +70,7 @@ const SetupPresentationComponent: FC<Props> = ({
         ></input>
       </form>
       {error ? <p>{error}</p> : null}
+      <GameBoard board={board} />
     </>
   );
 };
