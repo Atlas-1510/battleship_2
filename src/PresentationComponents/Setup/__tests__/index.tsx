@@ -31,7 +31,7 @@ const setup = (boardState?: Board, error?: string) => {
       updateFormShip={jest.fn()}
       updateCoordinate={jest.fn()}
       updateDirection={jest.fn()}
-      error={null}
+      error={error || null}
       confirmShipPlacement={jest.fn()}
     />
   );
@@ -85,5 +85,10 @@ describe("SetupPresentationComponent", () => {
     expect(tile_X5_Y1).toBeInTheDocument();
     expect(tile_X1_Y1.getAttribute("data-ship")).toBe("carrier");
     expect(tile_X5_Y1.getAttribute("data-ship")).toBe("carrier");
+  });
+
+  test("If error, renders error to user", () => {
+    setup(undefined, "some error text");
+    expect(screen.getByText("some error text")).toBeInTheDocument();
   });
 });
