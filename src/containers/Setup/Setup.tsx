@@ -4,6 +4,7 @@ import { ShipType, Ship } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { Coordinate } from "../../interfaces/Coordinate";
 import SetupPresentationComponent from "../../PresentationComponents/Setup";
+import GameBoardPresentationComponent from "../../PresentationComponents/GameBoard/index";
 
 const SetupContainer = () => {
   const initialFormState: ShipPlacement = {
@@ -196,8 +197,8 @@ const SetupContainer = () => {
         }
         confirmShipPlacement={confirmShipPlacement}
         formState={form}
-        board={board}
       />
+      <GameBoardPresentationComponent board={board} />
     </>
   );
 };

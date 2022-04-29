@@ -2,10 +2,8 @@ import { FC } from "react";
 import { ShipType } from "../../interfaces/Ship";
 import { Board } from "../../interfaces/Board";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
-import GameBoard from "../GameBoard";
 
 interface Props {
-  board: Board;
   formState: ShipPlacement;
   updateFormShip: (ship: ShipType) => void;
   updateCoordinate: (axis: "x" | "y", value: number) => void;
@@ -15,7 +13,6 @@ interface Props {
 }
 
 const SetupPresentationComponent: FC<Props> = ({
-  board,
   error,
   formState,
   updateFormShip,
@@ -104,7 +101,6 @@ const SetupPresentationComponent: FC<Props> = ({
         <button type="submit">Submit</button>
       </form>
       {error ? <p>{error}</p> : null}
-      <GameBoard board={board} />
     </>
   );
 };
