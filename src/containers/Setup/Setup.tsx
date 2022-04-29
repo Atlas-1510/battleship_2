@@ -3,7 +3,7 @@ import { Board } from "../../interfaces/Board";
 import { ShipType, Ship } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { Coordinate } from "../../interfaces/Coordinate";
-import SetupPresentationComponent from "../../PresentationComponents/Setup";
+import SetupFormPresentationComponent from "../../PresentationComponents/SetupForm/index";
 import GameBoardPresentationComponent from "../../PresentationComponents/GameBoard/index";
 
 const SetupContainer = () => {
@@ -184,7 +184,7 @@ const SetupContainer = () => {
 
   return (
     <>
-      <SetupPresentationComponent
+      <SetupFormPresentationComponent
         error={error}
         updateFormShip={(ship: ShipType) =>
           dispatch({ type: "changeShip", payload: ship })

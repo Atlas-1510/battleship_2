@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { ShipType } from "../../interfaces/Ship";
-import { Board } from "../../interfaces/Board";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
   confirmShipPlacement: () => void;
 }
 
-const SetupPresentationComponent: FC<Props> = ({
+const SetupFormPresentationComponent: FC<Props> = ({
   error,
   formState,
   updateFormShip,
@@ -105,4 +104,4 @@ const SetupPresentationComponent: FC<Props> = ({
   );
 };
 
-export default SetupPresentationComponent;
+export default SetupFormPresentationComponent;

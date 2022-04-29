@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import SetupPresentationComponent from "..";
+import SetupFormPresentationComponent from "..";
 import { ShipPlacement } from "../../../interfaces/ShipPlacement";
 
 const initFormState: ShipPlacement = {
@@ -11,7 +11,7 @@ const initFormState: ShipPlacement = {
 
 const setup = (error?: string) => {
   return render(
-    <SetupPresentationComponent
+    <SetupFormPresentationComponent
       formState={initFormState}
       updateFormShip={jest.fn()}
       updateCoordinate={jest.fn()}
