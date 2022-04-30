@@ -3,6 +3,7 @@ import { Board } from "../../../interfaces/Board";
 import GameBoard from "..";
 
 import { Ship } from "../../../interfaces/Ship";
+import { ShipPlacement } from "../../../interfaces/ShipPlacement";
 
 const setup = (boardState?: Board, error?: string) => {
   const initBoardState: Board = {
@@ -10,7 +11,20 @@ const setup = (boardState?: Board, error?: string) => {
     ships: [],
   };
 
-  return render(<GameBoard board={boardState || initBoardState} />);
+  const initFormState: ShipPlacement = {
+    ship: "carrier",
+    x: -1,
+    y: -1,
+    direction: "horizontal",
+  };
+
+  return render(
+    <GameBoard
+      confirmShipPlacement={jest.fn()}
+      form={initFormState}
+      board={boardState || initBoardState}
+    />
+  );
 };
 
 describe("SetupPresentationComponent", () => {
