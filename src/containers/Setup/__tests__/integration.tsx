@@ -5,8 +5,6 @@ import user from "@testing-library/user-event";
 
 import { ShipPlacement } from "../../../interfaces/ShipPlacement";
 
-// RENDERS SETUP CONTAINER WITH SETUP PRESENTATION COMPONENT
-
 const setupWithRealUI = () => {
   return render(<SetupContainer />);
 };

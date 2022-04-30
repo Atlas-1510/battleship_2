@@ -8,3 +8,5 @@ Hierarchy of components: View -> Container -> PresentationComponent -> (other Pr
 - test driven development, handling edge cases
 
 - naming things problem. 'Board' presentation component vs 'Board' interface.
+
+- Discovered issue with react-dnd and jest, downgraded to an older version to make it work

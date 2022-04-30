@@ -6,6 +6,8 @@ import { Coordinate } from "../../interfaces/Coordinate";
 import SetupFormPresentationComponent from "../../PresentationComponents/SetupForm/index";
 import GameBoardPresentationComponent from "../../PresentationComponents/GameBoard/index";
 import SetupView from "../../views/Setup/SetupView";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const SetupContainer = () => {
   const initialFormState: ShipPlacement = {
@@ -184,28 +186,30 @@ const SetupContainer = () => {
   };
 
   return (
-    <SetupView>
-      <SetupFormPresentationComponent
-        error={error}
-        updateFormShip={(ship: ShipType) =>
-          dispatch({ type: "changeShip", payload: ship })
-        }
-        updateCoordinate={(axis: "x" | "y", value: number) =>
-          dispatch({ type: "changeCoordinate", payload: { axis, value } })
-        }
-        updateDirection={(direction: "horizontal" | "vertical") =>
-          dispatch({ type: "changeDirection", payload: direction })
-        }
-        confirmShipPlacement={confirmShipPlacement}
-        formState={form}
-      />
-      <GameBoardPresentationComponent
-        board={board}
-        updateCoordinate={(axis: "x" | "y", value: number) =>
-          dispatch({ type: "changeCoordinate", payload: { axis, value } })
-        }
-      />
-    </SetupView>
+    <DndProvider backend={HTML5Backend}>
+      <SetupView>
+        <SetupFormPresentationComponent
+          error={error}
+          updateFormShip={(ship: ShipType) =>
+            dispatch({ type: "changeShip", payload: ship })
+          }
+          updateCoordinate={(axis: "x" | "y", value: number) =>
+            dispatch({ type: "changeCoordinate", payload: { axis, value } })
+          }
+          updateDirection={(direction: "horizontal" | "vertical") =>
+            dispatch({ type: "changeDirection", payload: direction })
+          }
+          confirmShipPlacement={confirmShipPlacement}
+          formState={form}
+        />
+        <GameBoardPresentationComponent
+          board={board}
+          updateCoordinate={(axis: "x" | "y", value: number) =>
+            dispatch({ type: "changeCoordinate", payload: { axis, value } })
+          }
+        />
+      </SetupView>
+    </DndProvider>
   );
 };
 

@@ -12,6 +12,8 @@
     "@types/react-dom": "^18.0.2",
     "jest-mock": "^28.0.1",
     "react": "^18.0.0",
+    "react-dnd": "^15.1.1",
+    "react-dnd-html5-backend": "^15.1.1",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
