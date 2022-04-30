@@ -38,7 +38,7 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
         if (form.direction === "horizontal") {
           const mouseX = hoverCoordinates.x;
 
-          for (let i = mouseX; i > mouseX - length && i >= 0; i--) {
+          for (let i = mouseX; i < mouseX + length && i <= 9; i++) {
             coords.push({ x: i, y: hoverCoordinates.y });
           }
         } else {
