@@ -51,8 +51,21 @@ const SetupContainer = () => {
   const [board, setBoard] = useState(initialBoardState);
   const [error, setError] = useState("");
 
-  const confirmShipPlacement = () => {
+  const confirmShipPlacement = (shipPlacement: ShipPlacement) => {
+    // update form x and y, just for debugging purposes.
+    // Actual ship placement doesn't rely on x and y from form input.
+    dispatch({
+      type: "changeCoordinate",
+      payload: { axis: "x", value: shipPlacement.x },
+    });
+    dispatch({
+      type: "changeCoordinate",
+      payload: { axis: "y", value: shipPlacement.y },
+    });
+
+    //
     setError("");
+
     const _validateInputs = (input: ShipPlacement) => {
       const validateCoordinate = (coord: any) => {
         if (typeof coord === "undefined") {
@@ -122,12 +135,14 @@ const SetupContainer = () => {
         "confirmShipPlacement called when board has not been initialised"
       );
     }
-    if (!_validateInputs(form)) {
+    if (!_validateInputs(shipPlacement)) {
       return;
     }
-    const { ship: shipType, x, y, direction } = form;
+    const { ship: shipType, x, y, direction } = shipPlacement;
     if (!shipType) {
-      throw new Error("confirmShipPlacement called while ship is falsy");
+      throw new Error(
+        "confirmShipPlacement called without ship type in shipPlacement object"
+      );
     }
 
     const ship = _generateShip(shipType);
@@ -201,9 +216,8 @@ const SetupContainer = () => {
       />
       <GameBoardPresentationComponent
         board={board}
-        updateCoordinate={(axis: "x" | "y", value: number) =>
-          dispatch({ type: "changeCoordinate", payload: { axis, value } })
-        }
+        form={form}
+        confirmShipPlacement={confirmShipPlacement}
       />
     </SetupView>
   );

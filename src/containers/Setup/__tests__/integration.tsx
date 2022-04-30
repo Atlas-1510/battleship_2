@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import SetupContainer from "..";
-import { GameContext } from "../../../contexts/Game";
 import user from "@testing-library/user-event";
 
 import { ShipPlacement } from "../../../interfaces/ShipPlacement";

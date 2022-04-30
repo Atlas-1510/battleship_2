@@ -10,7 +10,7 @@ interface Props {
   updateCoordinate: (axis: "x" | "y", value: number) => void;
   updateDirection: (direction: "horizontal" | "vertical") => void;
   error: string | null;
-  confirmShipPlacement: () => void;
+  confirmShipPlacement: (shipPlacement: ShipPlacement) => void;
 }
 
 const SetupFormPresentationComponent: FC<Props> = ({
@@ -23,7 +23,7 @@ const SetupFormPresentationComponent: FC<Props> = ({
 }) => {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    confirmShipPlacement();
+    confirmShipPlacement(formState);
   };
 
   return (

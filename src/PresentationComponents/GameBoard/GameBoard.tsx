@@ -1,13 +1,15 @@
 import React, { FC } from "react";
 import { Board } from "../../interfaces/Board";
+import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { BoardContainer, OccupiedTileContainer, TileContainer } from "./styles";
 
 interface Props {
   board: Board;
-  updateCoordinate: (axis: "x" | "y", value: number) => void;
+  form: ShipPlacement;
+  confirmShipPlacement: (shipPlacement: ShipPlacement) => void;
 }
 
-const GameBoard: FC<Props> = ({ board, updateCoordinate }) => {
+const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
   const grid: JSX.Element[] = [];
 
   const occupiedCoordinates = board.ships
@@ -45,8 +47,12 @@ const GameBoard: FC<Props> = ({ board, updateCoordinate }) => {
             data-y={y}
             data-testid={`${x},${y}`}
             onClick={() => {
-              updateCoordinate("x", x);
-              updateCoordinate("y", y);
+              confirmShipPlacement({
+                ship: form.ship,
+                x,
+                y,
+                direction: form.direction,
+              });
             }}
           >
             {x},{y}
