@@ -6,6 +6,7 @@ import { Coordinate } from "../../interfaces/Coordinate";
 import SetupFormPresentationComponent from "../../PresentationComponents/SetupForm/index";
 import GameBoardPresentationComponent from "../../PresentationComponents/GameBoard/index";
 import SetupView from "../../views/Setup/SetupView";
+import { getShipLength } from "../../utilities/getShipLength";
 
 const SetupContainer = () => {
   const initialFormState: ShipPlacement = {
@@ -105,27 +106,7 @@ const SetupContainer = () => {
         length: 0,
       };
 
-      switch (formInput) {
-        case "carrier":
-          newShip.length = 5;
-          break;
-        case "battleship":
-          newShip.length = 4;
-          break;
-        case "cruiser":
-          newShip.length = 3;
-          break;
-        case "submarine":
-          newShip.length = 3;
-          break;
-        case "patrolBoat":
-          newShip.length = 2;
-          break;
-        default:
-          throw new Error(
-            "generateShip recieved invalid shipType in switch block"
-          );
-      }
+      newShip.length = getShipLength(formInput);
 
       return newShip;
     };

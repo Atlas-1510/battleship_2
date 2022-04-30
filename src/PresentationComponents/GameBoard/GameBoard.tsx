@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from "react";
 import { Board } from "../../interfaces/Board";
 import { Coordinate } from "../../interfaces/Coordinate";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
+import { getShipLength } from "../../utilities/getShipLength";
 import BoardTile from "../BoardTile";
 import { BoardContainer } from "./styles";
 
@@ -24,6 +25,37 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
   // set highlighted coordinates
   // render tiles, if tile coords are within highlighted array then render a highlight tile
 
+  useEffect(() => {
+    if (hoverCoordinates) {
+      const generateHighlightCoordinates = (): Coordinate[] => {
+        if (!hoverCoordinates) {
+          throw new Error(
+            "generateHighlightCoordinates called without defined hover coordinates"
+          );
+        }
+        const length = getShipLength(form.ship);
+        const coords: Coordinate[] = [];
+        if (form.direction === "horizontal") {
+          const mouseX = hoverCoordinates.x;
+
+          for (let i = mouseX; i > mouseX - length && i >= 0; i--) {
+            coords.push({ x: i, y: hoverCoordinates.y });
+          }
+        } else {
+          const mouseY = hoverCoordinates.y;
+
+          for (let i = mouseY; i < mouseY + length && i <= 9; i++) {
+            coords.push({ x: hoverCoordinates.x, y: i });
+          }
+        }
+        return coords;
+      };
+      const coords = generateHighlightCoordinates();
+      setHighlightedCoordinates(coords);
+      console.log(coords);
+    }
+  }, [hoverCoordinates, form]);
+
   const grid: JSX.Element[] = [];
 
   const occupiedCoordinates = board.ships
@@ -41,15 +73,14 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
       let occupiedCoordinate = occupiedCoordinates.filter(
         (coord) => coord.x === x && coord.y === y
       )[0];
+      const shouldHighlight: boolean = highlightedCoordinates.some(
+        (coord) => coord.x === x && coord.y === y
+      );
       grid.push(
         <BoardTile
           key={`${x},${y}`}
           occupied={occupiedCoordinate ? true : false}
-          highlight={
-            hoverCoordinates
-              ? hoverCoordinates.x === x && hoverCoordinates.y === y
-              : false
-          }
+          highlight={shouldHighlight}
           x={x}
           y={y}
           dataShip={occupiedCoordinate ? occupiedCoordinate.ship : ""}
@@ -71,7 +102,10 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
 
   return (
     <BoardContainer
-      onMouseLeave={() => setHoverCoordinates(null)}
+      onMouseLeave={() => {
+        setHoverCoordinates(null);
+        setHighlightedCoordinates([]);
+      }}
       data-testid="gameboard"
     >
       {grid.map((tile) => tile)}
