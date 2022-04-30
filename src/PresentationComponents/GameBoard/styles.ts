@@ -11,12 +11,3 @@ export const BoardContainer = styled.div`
   border: 1px solid black;
   gap: 1px;
 `;
-
-export const TileContainer = styled.div`
-  aspect-ratio: 1/1;
-  background-color: white;
-`;
-
-export const OccupiedTileContainer = styled(TileContainer)`
-  background-color: red;
-`;

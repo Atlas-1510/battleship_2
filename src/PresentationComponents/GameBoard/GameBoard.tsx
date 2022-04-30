@@ -1,7 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Board } from "../../interfaces/Board";
+import { Coordinate } from "../../interfaces/Coordinate";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
-import { BoardContainer, OccupiedTileContainer, TileContainer } from "./styles";
+import BoardTile from "../BoardTile";
+import { BoardContainer } from "./styles";
 
 interface Props {
   board: Board;
@@ -10,6 +12,18 @@ interface Props {
 }
 
 const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
+  const [hoverCoordinates, setHoverCoordinates] = useState<Coordinate | null>(
+    null
+  );
+  const [highlightedCoordinates, setHighlightedCoordinates] = useState<
+    Coordinate[]
+  >([]);
+
+  // get coordinates of tile being hovered
+  // generate highlight coordinates based on hover coordinates, ship length, and ship direction
+  // set highlighted coordinates
+  // render tiles, if tile coords are within highlighted array then render a highlight tile
+
   const grid: JSX.Element[] = [];
 
   const occupiedCoordinates = board.ships
@@ -27,38 +41,23 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
       let occupiedCoordinate = occupiedCoordinates.filter(
         (coord) => coord.x === x && coord.y === y
       )[0];
-      if (occupiedCoordinate) {
-        grid.push(
-          <OccupiedTileContainer
-            key={`${x},${y}`}
-            data-x={x}
-            data-y={y}
-            data-testid={`${x},${y}`}
-            data-ship={occupiedCoordinate.ship}
-          >
-            {x},{y}
-          </OccupiedTileContainer>
-        );
-      } else {
-        grid.push(
-          <TileContainer
-            key={`${x},${y}`}
-            data-x={x}
-            data-y={y}
-            data-testid={`${x},${y}`}
-            onClick={() => {
-              confirmShipPlacement({
-                ship: form.ship,
-                x,
-                y,
-                direction: form.direction,
-              });
-            }}
-          >
-            {x},{y}
-          </TileContainer>
-        );
-      }
+      grid.push(
+        <BoardTile
+          key={`${x},${y}`}
+          occupied={occupiedCoordinate ? true : false}
+          x={x}
+          y={y}
+          dataShip={occupiedCoordinate ? occupiedCoordinate.ship : ""}
+          onClick={() =>
+            confirmShipPlacement({
+              ship: form.ship,
+              x,
+              y,
+              direction: form.direction,
+            })
+          }
+        />
+      );
     }
   }
 
