@@ -139,4 +139,23 @@ describe("SetupContainer", () => {
     const error = await screen.findByText("Invalid value for coordinate input");
     expect(error).toBeInTheDocument();
   });
+  test("Prevent more than one of each type of ship from being placed on the board", () => {
+    setupWithRealUI();
+    triggerShipPlacement({
+      ship: "carrier",
+      x: 1,
+      y: 2,
+      direction: "horizontal",
+    });
+    triggerShipPlacement({
+      ship: "carrier",
+      x: 1,
+      y: 4,
+      direction: "horizontal",
+    });
+    const tile_X1_Y4 = screen.getByTestId("1,4");
+    expect(tile_X1_Y4.getAttribute("data-ship")).not.toBe("carrier");
+    const error = screen.getByText("That ship has already been placed");
+    expect(error).toBeInTheDocument();
+  });
 });

@@ -53,7 +53,8 @@ const SetupContainer = () => {
 
   const confirmShipPlacement = (shipPlacement: ShipPlacement) => {
     // update form x and y, just for debugging purposes.
-    // Actual ship placement doesn't rely on x and y from form input.
+    // Actual ship placement doesn't rely on x and y from form input,
+    // the x and y are passed directly from the tile that is clicked
     dispatch({
       type: "changeCoordinate",
       payload: { axis: "x", value: shipPlacement.x },
@@ -129,11 +130,22 @@ const SetupContainer = () => {
 
       return newShip;
     };
+    const _checkIfShipAlreadyPlaced = (shipType: ShipType) => {
+      if (board.ships.filter((ship) => ship.type === shipType).length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    };
 
     if (!board) {
       throw new Error(
         "confirmShipPlacement called when board has not been initialised"
       );
+    }
+    if (_checkIfShipAlreadyPlaced(shipPlacement.ship)) {
+      setError("That ship has already been placed");
+      return;
     }
     if (!_validateInputs(shipPlacement)) {
       return;
