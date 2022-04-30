@@ -2,7 +2,18 @@ import { FC } from "react";
 import { ShipType } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import battleship from "../../assets/images/battleship.png";
-import { BattleshipContainer, Image } from "./styles";
+import carrier from "../../assets/images/carrier.png";
+import cruiser from "../../assets/images/cruiser.png";
+import submarine from "../../assets/images/submarine.png";
+import patrolBoat from "../../assets/images/patrolBoat.png";
+import {
+  BattleshipContainer,
+  CarrierContainer,
+  CruiserContainer,
+  Image,
+  PatrolBoat,
+  SubmarineContainer,
+} from "./styles";
 
 interface Props {
   formState: ShipPlacement;
@@ -109,6 +120,30 @@ const SetupFormPresentationComponent: FC<Props> = ({
       >
         <Image src={battleship} alt="battleship" />
       </BattleshipContainer>
+      <CarrierContainer
+        onClick={() => {
+          updateFormShip("carrier");
+        }}
+      >
+        <Image src={carrier} alt="carrier" />
+      </CarrierContainer>
+      <CruiserContainer
+        onClick={() => {
+          updateFormShip("cruiser");
+        }}
+      >
+        <Image src={cruiser} alt="cruiser" />
+      </CruiserContainer>
+      <SubmarineContainer
+        onClick={() => {
+          updateFormShip("cruiser");
+        }}
+      >
+        <Image src={submarine} alt="submarine" />
+      </SubmarineContainer>
+      <PatrolBoat>
+        <Image src={patrolBoat} alt="patrolBoat" />
+      </PatrolBoat>
     </div>
   );
 };
