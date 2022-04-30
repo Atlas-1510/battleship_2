@@ -4,7 +4,7 @@ import { Coordinate } from "../../interfaces/Coordinate";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { getShipLength } from "../../utilities/getShipLength";
 import BoardTile from "../BoardTile";
-import { BoardContainer } from "./styles";
+import { BoardUI } from "./styles";
 
 interface Props {
   board: Board;
@@ -19,11 +19,6 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
   const [highlightedCoordinates, setHighlightedCoordinates] = useState<
     Coordinate[]
   >([]);
-
-  // get coordinates of tile being hovered
-  // generate highlight coordinates based on hover coordinates, ship length, and ship direction
-  // set highlighted coordinates
-  // render tiles, if tile coords are within highlighted array then render a highlight tile
 
   useEffect(() => {
     if (hoverCoordinates) {
@@ -100,7 +95,7 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
   }
 
   return (
-    <BoardContainer
+    <BoardUI
       onMouseLeave={() => {
         setHoverCoordinates(null);
         setHighlightedCoordinates([]);
@@ -108,7 +103,7 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
       data-testid="gameboard"
     >
       {grid.map((tile) => tile)}
-    </BoardContainer>
+    </BoardUI>
   );
 };
 

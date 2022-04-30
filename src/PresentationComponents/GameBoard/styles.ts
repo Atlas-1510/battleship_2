@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const BoardContainer = styled.div`
+export const BoardUI = styled.div`
   /* aspect-ratio: 1/1; */
   width: 50vw;
   height: 50vw;

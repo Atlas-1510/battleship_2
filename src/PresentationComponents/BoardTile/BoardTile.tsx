@@ -39,6 +39,7 @@ const BoardTile: FC<Props> = ({
     return (
       <HighlightTileContainer
         onClick={onClick}
+        onMouseOver={onMouseOver}
         data-testid={`${x},${y}`}
         data-ship={dataShip || ""}
       >
@@ -48,8 +49,8 @@ const BoardTile: FC<Props> = ({
   } else {
     return (
       <TileContainer
-        onMouseOver={onMouseOver}
         onClick={onClick}
+        onMouseOver={onMouseOver}
         data-testid={`${x},${y}`}
         data-ship={dataShip || ""}
       >
@@ -60,21 +61,3 @@ const BoardTile: FC<Props> = ({
 };
 
 export default BoardTile;
-
-//  <TileContainer
-//    key={`${x},${y}`}
-//    data-x={x}
-//    data-y={y}
-//    data-testid={`${x},${y}`}
-//    data-ship={occupiedCoordinate.ship || ""}
-//    onClick={() => {
-//      confirmShipPlacement({
-//        ship: form.ship,
-//        x,
-//        y,
-//        direction: form.direction,
-//      });
-//    }}
-//  >
-//
-//  </TileContainer>;
