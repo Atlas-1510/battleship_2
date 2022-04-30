@@ -52,7 +52,6 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
       };
       const coords = generateHighlightCoordinates();
       setHighlightedCoordinates(coords);
-      console.log(coords);
     }
   }, [hoverCoordinates, form]);
 
