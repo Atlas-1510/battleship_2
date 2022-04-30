@@ -25,17 +25,6 @@ const BoardTile: FC<Props> = ({
   onClick,
   onMouseOver,
 }) => {
-  if (highlight) {
-    return (
-      <HighlightTileContainer
-        onClick={onClick}
-        data-testid={`${x},${y}`}
-        data-ship={dataShip || ""}
-      >
-        {x},{y}
-      </HighlightTileContainer>
-    );
-  }
   if (occupied) {
     return (
       <OccupiedTileContainer
@@ -45,6 +34,16 @@ const BoardTile: FC<Props> = ({
       >
         {x},{y}
       </OccupiedTileContainer>
+    );
+  } else if (highlight) {
+    return (
+      <HighlightTileContainer
+        onClick={onClick}
+        data-testid={`${x},${y}`}
+        data-ship={dataShip || ""}
+      >
+        {x},{y}
+      </HighlightTileContainer>
     );
   } else {
     return (
