@@ -1,19 +1,7 @@
 import { FC } from "react";
 import { ShipType } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
-import battleship from "../../assets/images/battleship.png";
-import carrier from "../../assets/images/carrier.png";
-import cruiser from "../../assets/images/cruiser.png";
-import submarine from "../../assets/images/submarine.png";
-import patrolBoat from "../../assets/images/patrolBoat.png";
-import {
-  BattleshipContainer,
-  CarrierContainer,
-  CruiserContainer,
-  Image,
-  PatrolBoat,
-  SubmarineContainer,
-} from "./styles";
+import Ship from "../Ship/Ship";
 
 interface Props {
   formState: ShipPlacement;
@@ -113,37 +101,17 @@ const SetupFormPresentationComponent: FC<Props> = ({
         <button type="submit">Submit</button>
       </form>
       {error ? <p>{error}</p> : null}
-      <BattleshipContainer
-        onClick={() => {
-          updateFormShip("battleship");
-        }}
-      >
-        <Image src={battleship} alt="battleship" />
-      </BattleshipContainer>
-      <CarrierContainer
-        onClick={() => {
-          updateFormShip("carrier");
-        }}
-      >
-        <Image src={carrier} alt="carrier" />
-      </CarrierContainer>
-      <CruiserContainer
-        onClick={() => {
-          updateFormShip("cruiser");
-        }}
-      >
-        <Image src={cruiser} alt="cruiser" />
-      </CruiserContainer>
-      <SubmarineContainer
-        onClick={() => {
-          updateFormShip("cruiser");
-        }}
-      >
-        <Image src={submarine} alt="submarine" />
-      </SubmarineContainer>
-      <PatrolBoat>
-        <Image src={patrolBoat} alt="patrolBoat" />
-      </PatrolBoat>
+      <Ship shipType="carrier" onClick={() => updateFormShip("carrier")} />
+      <Ship
+        shipType="battleship"
+        onClick={() => updateFormShip("battleship")}
+      />
+      <Ship shipType="cruiser" onClick={() => updateFormShip("cruiser")} />
+      <Ship shipType="submarine" onClick={() => updateFormShip("submarine")} />
+      <Ship
+        shipType="patrolBoat"
+        onClick={() => updateFormShip("patrolBoat")}
+      />
     </div>
   );
 };
