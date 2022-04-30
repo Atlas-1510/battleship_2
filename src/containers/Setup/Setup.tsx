@@ -160,6 +160,7 @@ const SetupContainer = () => {
     }
 
     // validate the coordinates are all on the board
+    let failOffBoardValidation = false;
     newShipCoordinates.forEach((coordinate) => {
       if (
         coordinate.x > 9 ||
@@ -167,10 +168,14 @@ const SetupContainer = () => {
         coordinate.y > 9 ||
         coordinate.y < 0
       ) {
-        setError("Please place the ship entirely on the board");
-        return;
+        failOffBoardValidation = true;
       }
     });
+
+    if (failOffBoardValidation) {
+      setError("Please place the ship entirely on the board");
+      return;
+    }
 
     // validate the new ship won't overlap other ships
     const occupiedTiles = board.ships.map((ship) => ship.location).flat();

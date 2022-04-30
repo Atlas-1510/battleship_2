@@ -91,6 +91,8 @@ describe("SetupContainer", () => {
       "Please place the ship entirely on the board"
     );
     expect(error).toBeInTheDocument();
+    const tile_X8_Y1 = screen.getByTestId("8,1");
+    expect(tile_X8_Y1.getAttribute("data-ship")).not.toBe("carrier");
   });
 
   test("If place ship off board vertically, render error to user", () => {
@@ -105,6 +107,8 @@ describe("SetupContainer", () => {
       "Please place the ship entirely on the board"
     );
     expect(error).toBeInTheDocument();
+    const tile_X1_Y8 = screen.getByTestId("1,8");
+    expect(tile_X1_Y8.getAttribute("data-ship")).not.toBe("carrier");
   });
 
   test("If place ship that overlaps another ship, render error to user", () => {
