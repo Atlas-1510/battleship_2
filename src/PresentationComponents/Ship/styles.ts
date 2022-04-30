@@ -5,6 +5,10 @@ export const Image = styled.img`
   height: 100%;
 `;
 
+export const SelectedContainer = styled.div`
+  border: 5px solid red;
+`;
+
 export const CarrierContainer = styled.div`
   background-color: teal;
   width: 25vw;

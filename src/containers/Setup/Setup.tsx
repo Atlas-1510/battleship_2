@@ -64,7 +64,6 @@ const SetupContainer = () => {
       payload: { axis: "y", value: shipPlacement.y },
     });
 
-    //
     setError("");
 
     const _validateInputs = (input: ShipPlacement) => {

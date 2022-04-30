@@ -2,6 +2,7 @@ import { FC } from "react";
 import { ShipType } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import Ship from "../Ship/Ship";
+import { ShipsContainer } from "./styles";
 
 interface Props {
   formState: ShipPlacement;
@@ -101,17 +102,33 @@ const SetupFormPresentationComponent: FC<Props> = ({
         <button type="submit">Submit</button>
       </form>
       {error ? <p>{error}</p> : null}
-      <Ship shipType="carrier" onClick={() => updateFormShip("carrier")} />
-      <Ship
-        shipType="battleship"
-        onClick={() => updateFormShip("battleship")}
-      />
-      <Ship shipType="cruiser" onClick={() => updateFormShip("cruiser")} />
-      <Ship shipType="submarine" onClick={() => updateFormShip("submarine")} />
-      <Ship
-        shipType="patrolBoat"
-        onClick={() => updateFormShip("patrolBoat")}
-      />
+      <ShipsContainer>
+        <Ship
+          selected={formState.ship === "carrier"}
+          shipType="carrier"
+          onClick={() => updateFormShip("carrier")}
+        />
+        <Ship
+          selected={formState.ship === "battleship"}
+          shipType="battleship"
+          onClick={() => updateFormShip("battleship")}
+        />
+        <Ship
+          selected={formState.ship === "cruiser"}
+          shipType="cruiser"
+          onClick={() => updateFormShip("cruiser")}
+        />
+        <Ship
+          selected={formState.ship === "submarine"}
+          shipType="submarine"
+          onClick={() => updateFormShip("submarine")}
+        />
+        <Ship
+          selected={formState.ship === "patrolBoat"}
+          shipType="patrolBoat"
+          onClick={() => updateFormShip("patrolBoat")}
+        />
+      </ShipsContainer>
     </div>
   );
 };
