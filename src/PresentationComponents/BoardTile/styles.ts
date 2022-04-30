@@ -8,3 +8,7 @@ export const TileContainer = styled.div`
 export const OccupiedTileContainer = styled(TileContainer)`
   background-color: red;
 `;
+
+export const HighlightTileContainer = styled(TileContainer)`
+  background-color: yellow;
+`;

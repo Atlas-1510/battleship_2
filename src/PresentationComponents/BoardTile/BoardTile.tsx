@@ -1,15 +1,41 @@
 import React, { FC } from "react";
-import { TileContainer, OccupiedTileContainer } from "./styles";
+import { Coordinate } from "../../interfaces/Coordinate";
+import {
+  TileContainer,
+  OccupiedTileContainer,
+  HighlightTileContainer,
+} from "./styles";
 
 interface Props {
   x: number;
   y: number;
   occupied: boolean;
+  highlight: boolean;
   dataShip: string;
   onClick: () => void;
+  onMouseOver: () => void;
 }
 
-const BoardTile: FC<Props> = ({ x, y, occupied, dataShip, onClick }) => {
+const BoardTile: FC<Props> = ({
+  x,
+  y,
+  occupied,
+  highlight,
+  dataShip,
+  onClick,
+  onMouseOver,
+}) => {
+  if (highlight) {
+    return (
+      <HighlightTileContainer
+        onClick={onClick}
+        data-testid={`${x},${y}`}
+        data-ship={dataShip || ""}
+      >
+        {x},{y}
+      </HighlightTileContainer>
+    );
+  }
   if (occupied) {
     return (
       <OccupiedTileContainer
@@ -23,6 +49,7 @@ const BoardTile: FC<Props> = ({ x, y, occupied, dataShip, onClick }) => {
   } else {
     return (
       <TileContainer
+        onMouseOver={onMouseOver}
         onClick={onClick}
         data-testid={`${x},${y}`}
         data-ship={dataShip || ""}

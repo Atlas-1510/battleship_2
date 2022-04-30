@@ -45,6 +45,11 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
         <BoardTile
           key={`${x},${y}`}
           occupied={occupiedCoordinate ? true : false}
+          highlight={
+            hoverCoordinates
+              ? hoverCoordinates.x === x && hoverCoordinates.y === y
+              : false
+          }
           x={x}
           y={y}
           dataShip={occupiedCoordinate ? occupiedCoordinate.ship : ""}
@@ -56,13 +61,19 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
               direction: form.direction,
             })
           }
+          onMouseOver={() => {
+            setHoverCoordinates({ x, y });
+          }}
         />
       );
     }
   }
 
   return (
-    <BoardContainer data-testid="gameboard">
+    <BoardContainer
+      onMouseLeave={() => setHoverCoordinates(null)}
+      data-testid="gameboard"
+    >
       {grid.map((tile) => tile)}
     </BoardContainer>
   );
