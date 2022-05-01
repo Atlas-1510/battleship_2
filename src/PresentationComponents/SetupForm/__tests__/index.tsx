@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import SetupFormPresentationComponent from "..";
+import { ShipType } from "../../../interfaces/Ship";
 import { ShipPlacement } from "../../../interfaces/ShipPlacement";
 
 const initFormState: ShipPlacement = {
@@ -12,9 +13,10 @@ const initFormState: ShipPlacement = {
 
 const updateDirectionMock = jest.fn();
 
-const setup = (error?: string) => {
+const setup = (error?: string, placedShips?: ShipType[]) => {
   return render(
     <SetupFormPresentationComponent
+      placedShips={placedShips || []}
       formState={initFormState}
       updateFormShip={jest.fn()}
       updateCoordinate={jest.fn()}
@@ -39,5 +41,10 @@ describe("SetupPresentationComponent", () => {
     expect(updateDirectionMock.mock.calls.length).toBe(1);
     user.keyboard("r");
     expect(updateDirectionMock.mock.calls.length).toBe(2);
+  });
+  test("If a ship is already placed, apply 'placed' data attribute to form ship selector", () => {
+    setup(undefined, ["carrier"]);
+    const carrierSelector = screen.getByTestId("carrier");
+    expect(carrierSelector.getAttribute("data-placed")).toBe("true");
   });
 });

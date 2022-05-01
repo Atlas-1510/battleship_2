@@ -218,6 +218,7 @@ const SetupContainer = () => {
   return (
     <SetupView>
       <SetupFormPresentationComponent
+        placedShips={board.ships.map((ship) => ship.type)}
         error={error}
         updateFormShip={(ship: ShipType) =>
           dispatch({ type: "changeShip", payload: ship })

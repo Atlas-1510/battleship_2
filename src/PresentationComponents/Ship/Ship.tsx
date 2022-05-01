@@ -6,6 +6,7 @@ import {
   CruiserContainer,
   Image,
   PatrolBoat,
+  PlacedContainer,
   SelectedContainer,
   SubmarineContainer,
 } from "./styles";
@@ -19,54 +20,39 @@ interface Props {
   onClick: (shipType: ShipType) => void;
   shipType: ShipType;
   selected: boolean;
+  placed: boolean;
 }
 
-const Ship: FC<Props> = ({ shipType, onClick, selected }) => {
+const Ship: FC<Props> = ({ shipType, onClick, selected, placed }) => {
   const generateShipByType = () => {
     switch (shipType) {
       case "carrier":
         return (
-          <CarrierContainer
-            onClick={() => {
-              onClick("carrier");
-            }}
-          >
+          <CarrierContainer>
             <Image src={carrier} alt="carrier" />
           </CarrierContainer>
         );
       case "battleship":
         return (
-          <BattleshipContainer
-            onClick={() => {
-              onClick("battleship");
-            }}
-          >
+          <BattleshipContainer>
             <Image src={battleship} alt="battleship" />
           </BattleshipContainer>
         );
       case "cruiser":
         return (
-          <CruiserContainer
-            onClick={() => {
-              onClick("cruiser");
-            }}
-          >
+          <CruiserContainer>
             <Image src={cruiser} alt="cruiser" />
           </CruiserContainer>
         );
       case "submarine":
         return (
-          <SubmarineContainer
-            onClick={() => {
-              onClick("submarine");
-            }}
-          >
+          <SubmarineContainer>
             <Image src={submarine} alt="submarine" />
           </SubmarineContainer>
         );
       case "patrolBoat":
         return (
-          <PatrolBoat onClick={() => onClick("patrolBoat")}>
+          <PatrolBoat>
             <Image src={patrolBoat} alt="patrolBoat" />
           </PatrolBoat>
         );
@@ -75,10 +61,24 @@ const Ship: FC<Props> = ({ shipType, onClick, selected }) => {
     }
   };
 
-  if (selected) {
-    return <SelectedContainer>{generateShipByType()}</SelectedContainer>;
+  if (placed) {
+    return (
+      <PlacedContainer data-testid={shipType} data-placed={placed}>
+        {generateShipByType()}
+      </PlacedContainer>
+    );
+  } else if (selected) {
+    return (
+      <SelectedContainer data-testid={shipType}>
+        {generateShipByType()}
+      </SelectedContainer>
+    );
   } else {
-    return generateShipByType();
+    return (
+      <div data-testid={shipType} onClick={() => onClick(shipType)}>
+        {generateShipByType()}
+      </div>
+    );
   }
 };
 

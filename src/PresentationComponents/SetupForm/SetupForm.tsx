@@ -1,10 +1,11 @@
 import { FC, useEffect } from "react";
-import { ShipType } from "../../interfaces/Ship";
+import { ShipType, shipTypesArray } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import Ship from "../Ship/Ship";
 import { ShipsContainer } from "./styles";
 
 interface Props {
+  placedShips: ShipType[];
   formState: ShipPlacement;
   updateFormShip: (ship: ShipType) => void;
   updateCoordinate: (axis: "x" | "y", value: number) => void;
@@ -14,8 +15,9 @@ interface Props {
 }
 
 const SetupFormPresentationComponent: FC<Props> = ({
-  error,
+  placedShips,
   formState,
+  error,
   updateFormShip,
   updateCoordinate,
   updateDirection,
@@ -119,31 +121,15 @@ const SetupFormPresentationComponent: FC<Props> = ({
       </form>
       {error ? <p>{error}</p> : null}
       <ShipsContainer>
-        <Ship
-          selected={formState.ship === "carrier"}
-          shipType="carrier"
-          onClick={() => updateFormShip("carrier")}
-        />
-        <Ship
-          selected={formState.ship === "battleship"}
-          shipType="battleship"
-          onClick={() => updateFormShip("battleship")}
-        />
-        <Ship
-          selected={formState.ship === "cruiser"}
-          shipType="cruiser"
-          onClick={() => updateFormShip("cruiser")}
-        />
-        <Ship
-          selected={formState.ship === "submarine"}
-          shipType="submarine"
-          onClick={() => updateFormShip("submarine")}
-        />
-        <Ship
-          selected={formState.ship === "patrolBoat"}
-          shipType="patrolBoat"
-          onClick={() => updateFormShip("patrolBoat")}
-        />
+        {shipTypesArray.map((shipType) => (
+          <Ship
+            key={shipType}
+            placed={placedShips.includes(shipType as ShipType)}
+            selected={formState.ship === shipType}
+            shipType={shipType as ShipType}
+            onClick={() => updateFormShip(shipType as ShipType)}
+          />
+        ))}
       </ShipsContainer>
     </div>
   );

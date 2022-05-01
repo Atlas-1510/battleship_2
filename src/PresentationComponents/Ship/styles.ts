@@ -9,6 +9,10 @@ export const SelectedContainer = styled.div`
   border: 5px solid red;
 `;
 
+export const PlacedContainer = styled.div`
+  opacity: 0.5;
+`;
+
 export const CarrierContainer = styled.div`
   background-color: teal;
   width: 25vw;
