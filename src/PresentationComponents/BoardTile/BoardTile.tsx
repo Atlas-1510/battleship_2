@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Coordinate } from "../../interfaces/Coordinate";
 import {
   TileContainer,
   OccupiedTileContainer,
