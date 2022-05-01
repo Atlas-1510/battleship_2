@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { ShipType } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import Ship from "../Ship/Ship";
@@ -21,6 +21,21 @@ const SetupFormPresentationComponent: FC<Props> = ({
   updateDirection,
   confirmShipPlacement,
 }) => {
+  useEffect(() => {
+    const handleDirectionChangeRequest = (e: KeyboardEvent) => {
+      if (e.key === "r") {
+        updateDirection(
+          formState.direction === "horizontal" ? "vertical" : "horizontal"
+        );
+      }
+    };
+    document.addEventListener("keydown", handleDirectionChangeRequest);
+
+    return () => {
+      document.removeEventListener("keydown", handleDirectionChangeRequest);
+    };
+  }, [updateDirection, formState]);
+
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     confirmShipPlacement(formState);
@@ -29,6 +44,7 @@ const SetupFormPresentationComponent: FC<Props> = ({
   return (
     <div>
       <h1>Place your ships</h1>
+      <p>Press r to rotate your ship</p>
       <form onSubmit={handleFormSubmit}>
         <label htmlFor="ship-select">Ship</label>
         <select
