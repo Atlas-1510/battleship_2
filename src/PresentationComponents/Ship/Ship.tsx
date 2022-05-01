@@ -58,7 +58,7 @@ const Ship: FC<Props> = ({ shipType, onClick, selected }) => {
         return (
           <SubmarineContainer
             onClick={() => {
-              onClick("cruiser");
+              onClick("submarine");
             }}
           >
             <Image src={submarine} alt="submarine" />
