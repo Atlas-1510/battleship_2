@@ -4,7 +4,7 @@ import { ShipType, Ship } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { Coordinate } from "../../interfaces/Coordinate";
 import SetupFormPresentationComponent from "../../PresentationComponents/SetupForm/index";
-import GameBoardPresentationComponent from "../../PresentationComponents/GameBoard/index";
+import SetupBoardPresentationComponent from "../../PresentationComponents/SetupBoard/index";
 import SetupView from "../../views/Setup/SetupView";
 import { getShipLength } from "../../utilities/getShipLength";
 
@@ -237,7 +237,7 @@ const SetupContainer = () => {
         formState={form}
         startGame={startGame}
       />
-      <GameBoardPresentationComponent
+      <SetupBoardPresentationComponent
         board={board}
         form={form}
         confirmShipPlacement={confirmShipPlacement}

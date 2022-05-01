@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { Board } from "../../../interfaces/Board";
-import GameBoard from "..";
+import SetupBoard from "..";
 
 import { Ship } from "../../../interfaces/Ship";
 import { ShipPlacement } from "../../../interfaces/ShipPlacement";
@@ -24,7 +24,7 @@ const setup = (
   };
 
   return render(
-    <GameBoard
+    <SetupBoard
       confirmShipPlacement={jest.fn()}
       form={formState || initFormState}
       board={boardState || initBoardState}
