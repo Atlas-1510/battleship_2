@@ -195,6 +195,26 @@ const SetupContainer = () => {
     setBoard(newBoardState);
   };
 
+  const removeShip = (shipType: ShipType) => {
+    const matchedShips = board.ships.filter((ship) => ship.type === shipType);
+    if (matchedShips.length > 1) {
+      throw new Error(
+        `removeShip found more than one ship of type: ${shipType}`
+      );
+    }
+    if (matchedShips[0]) {
+      const boardWithoutShip = {
+        ...board,
+        ships: board.ships.filter((ship) => ship !== matchedShips[0]),
+      };
+      setBoard(boardWithoutShip);
+    } else {
+      throw new Error(
+        `removeShip called with a shipType that hasn't been placed: ${shipType}`
+      );
+    }
+  };
+
   return (
     <SetupView>
       <SetupFormPresentationComponent
@@ -215,6 +235,7 @@ const SetupContainer = () => {
         board={board}
         form={form}
         confirmShipPlacement={confirmShipPlacement}
+        removeShip={removeShip}
       />
     </SetupView>
   );

@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const TileContainer = styled.div`
   aspect-ratio: 1/1;
   background-color: white;
+  cursor: pointer;
 `;
 
 export const OccupiedTileContainer = styled(TileContainer)`

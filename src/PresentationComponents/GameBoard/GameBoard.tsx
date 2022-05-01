@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { Board } from "../../interfaces/Board";
 import { Coordinate } from "../../interfaces/Coordinate";
+import { ShipType } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import { getShipLength } from "../../utilities/getShipLength";
 import BoardTile from "../BoardTile";
@@ -10,9 +11,15 @@ interface Props {
   board: Board;
   form: ShipPlacement;
   confirmShipPlacement: (shipPlacement: ShipPlacement) => void;
+  removeShip: (shipType: ShipType) => void;
 }
 
-const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
+const GameBoard: FC<Props> = ({
+  board,
+  form,
+  confirmShipPlacement,
+  removeShip,
+}) => {
   const [hoverCoordinates, setHoverCoordinates] = useState<Coordinate | null>(
     null
   );
@@ -70,27 +77,44 @@ const GameBoard: FC<Props> = ({ board, form, confirmShipPlacement }) => {
       const shouldHighlight: boolean = highlightedCoordinates.some(
         (coord) => coord.x === x && coord.y === y
       );
-      grid.push(
-        <BoardTile
-          key={`${x},${y}`}
-          occupied={occupiedCoordinate ? true : false}
-          highlight={shouldHighlight}
-          x={x}
-          y={y}
-          dataShip={occupiedCoordinate ? occupiedCoordinate.ship : ""}
-          onClick={() =>
-            confirmShipPlacement({
-              ship: form.ship,
-              x,
-              y,
-              direction: form.direction,
-            })
-          }
-          onMouseOver={() => {
-            setHoverCoordinates({ x, y });
-          }}
-        />
-      );
+      if (occupiedCoordinate) {
+        grid.push(
+          <BoardTile
+            key={`${x},${y}`}
+            occupied={true}
+            highlight={shouldHighlight}
+            x={x}
+            y={y}
+            dataShip={occupiedCoordinate.ship}
+            onClick={() => removeShip(occupiedCoordinate.ship)}
+            onMouseOver={() => {
+              setHoverCoordinates({ x, y });
+            }}
+          />
+        );
+      } else {
+        grid.push(
+          <BoardTile
+            key={`${x},${y}`}
+            occupied={false}
+            highlight={shouldHighlight}
+            x={x}
+            y={y}
+            dataShip={""}
+            onClick={() =>
+              confirmShipPlacement({
+                ship: form.ship,
+                x,
+                y,
+                direction: form.direction,
+              })
+            }
+            onMouseOver={() => {
+              setHoverCoordinates({ x, y });
+            }}
+          />
+        );
+      }
     }
   }
 

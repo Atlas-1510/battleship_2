@@ -28,6 +28,7 @@ const setup = (
       confirmShipPlacement={jest.fn()}
       form={formState || initFormState}
       board={boardState || initBoardState}
+      removeShip={jest.fn()}
     />
   );
 };

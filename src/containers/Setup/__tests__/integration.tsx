@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import SetupContainer from "..";
 import user from "@testing-library/user-event";
 
@@ -157,5 +157,21 @@ describe("SetupContainer", () => {
     expect(tile_X1_Y4.getAttribute("data-ship")).not.toBe("carrier");
     const error = screen.getByText("That ship has already been placed");
     expect(error).toBeInTheDocument();
+  });
+  test("If click placed ship, remove from board", async () => {
+    setupWithRealUI();
+    triggerShipPlacement({
+      ship: "carrier",
+      x: 2,
+      y: 1,
+      direction: "horizontal",
+    });
+    const tile_X2_Y1 = screen.getByTestId("2,1");
+    user.click(tile_X2_Y1);
+    expect(tile_X2_Y1.getAttribute("data-ship")).toBe("carrier");
+    user.click(tile_X2_Y1);
+    await waitFor(() => screen.findByTestId("2,1"));
+    const updated_tile_X2_Y1 = await screen.findByTestId("2,1");
+    expect(updated_tile_X2_Y1.getAttribute("data-ship")).not.toBe("carrier");
   });
 });
