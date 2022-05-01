@@ -7,7 +7,6 @@ import { getShipLength } from "../../utilities/getShipLength";
 import BoardTile from "../BoardTile";
 import {
   BoardContainer,
-  ShipsGrid,
   TileGrid,
   CarrierGridIcon,
   VerticalCarrierGridIcon,
@@ -91,9 +90,16 @@ const GameBoard: FC<Props> = ({
         const shouldHighlight: boolean = highlightedCoordinates.some(
           (coord) => coord.x === x && coord.y === y
         );
+        let style: React.CSSProperties = {
+          gridRowStart: y + 1,
+          gridRowEnd: y + 2,
+          gridColumnStart: x + 1,
+          gridColumnEnd: x + 2,
+        };
         if (occupiedCoordinate) {
           grid.push(
             <BoardTile
+              style={style}
               key={`${x},${y}`}
               occupied={true}
               highlight={shouldHighlight}
@@ -109,6 +115,7 @@ const GameBoard: FC<Props> = ({
         } else {
           grid.push(
             <BoardTile
+              style={style}
               key={`${x},${y}`}
               occupied={false}
               highlight={shouldHighlight}
@@ -133,15 +140,9 @@ const GameBoard: FC<Props> = ({
     }
     return grid;
   };
-  const grid: JSX.Element[] = generateTiles();
+
   const generateShips = () => {
     const ships: JSX.Element[] = [];
-    // TO PLACE CARRIER AT 2,1 horizontallay
-    //   gridRowStart: "2",
-    //   gridRowEnd: "3",
-    //   gridColumnStart: "3",
-    //   gridColumnEnd: "8",
-    // };
     board.ships.forEach((ship) => {
       const { location, type } = ship;
 
@@ -203,6 +204,7 @@ const GameBoard: FC<Props> = ({
     return ships;
   };
 
+  const grid: JSX.Element[] = generateTiles();
   const ships: JSX.Element[] = generateShips();
 
   return (
@@ -215,8 +217,8 @@ const GameBoard: FC<Props> = ({
         data-testid="gameboard"
       >
         {grid.map((tile) => tile)}
+        {ships.map((ship) => ship)}
       </TileGrid>
-      <ShipsGrid>{ships.map((ship) => ship)}</ShipsGrid>
     </BoardContainer>
   );
 };

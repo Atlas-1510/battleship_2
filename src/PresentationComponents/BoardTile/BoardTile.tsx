@@ -14,6 +14,7 @@ interface Props {
   dataShip: string;
   onClick: () => void;
   onMouseOver: () => void;
+  style: React.CSSProperties;
 }
 
 const BoardTile: FC<Props> = ({
@@ -24,6 +25,7 @@ const BoardTile: FC<Props> = ({
   dataShip,
   onClick,
   onMouseOver,
+  style,
 }) => {
   if (occupied) {
     return (
@@ -33,6 +35,7 @@ const BoardTile: FC<Props> = ({
         data-testid={`${x},${y}`}
         data-ship={dataShip || ""}
         data-highlight="false"
+        style={style}
       >
         {x},{y}
       </OccupiedTileContainer>
@@ -45,6 +48,7 @@ const BoardTile: FC<Props> = ({
         data-testid={`${x},${y}`}
         data-ship={dataShip || ""}
         data-highlight="true"
+        style={style}
       >
         {x},{y}
       </HighlightTileContainer>
@@ -57,6 +61,7 @@ const BoardTile: FC<Props> = ({
         data-testid={`${x},${y}`}
         data-ship={dataShip || ""}
         data-highlight="false"
+        style={style}
       >
         {x},{y}
       </TileContainer>

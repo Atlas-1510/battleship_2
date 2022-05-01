@@ -11,32 +11,17 @@ import submarine from "../../assets/images/submarine.png";
 import submarineVertical from "../../assets/images/submarineVertical.png";
 
 export const BoardContainer = styled.div`
-  position: relative;
   width: 50vw;
   height: 50vw;
 `;
 
 export const TileGrid = styled.div`
-  /* aspect-ratio: 1/1; */
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat (10, 1fr);
-  background-color: black;
-  border: 1px solid black;
-  gap: 1px;
-`;
-
-export const ShipsGrid = styled.div`
-  pointer-events: none;
-  position: absolute;
-  top: 0;
   width: 100%;
   height: 100%;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
+  background-color: black;
   border: 1px solid black;
   gap: 1px;
 `;
@@ -44,6 +29,7 @@ export const ShipsGrid = styled.div`
 export const GridShipIndicator = styled.div`
   background-position: center;
   background-size: 100% 100%;
+  pointer-events: none;
 `;
 
 export const CarrierGridIcon = styled(GridShipIndicator)`
