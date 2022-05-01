@@ -7,6 +7,10 @@ import SetupFormPresentationComponent from "../../PresentationComponents/SetupFo
 import SetupBoardPresentationComponent from "../../PresentationComponents/SetupBoard/index";
 import SetupView from "../../views/Setup/SetupView";
 import { getShipLength } from "../../utilities/getShipLength";
+import { useGameContext } from "../../hooks/useGameContext";
+import generateGame from "../../utilities/generateGame";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../Routes";
 
 const SetupContainer = () => {
   const initialFormState: ShipPlacement = {
@@ -51,6 +55,8 @@ const SetupContainer = () => {
   const [form, dispatch] = useReducer(formStateReducer, initialFormState);
   const [board, setBoard] = useState(initialBoardState);
   const [error, setError] = useState("");
+  const { setGame } = useGameContext();
+  const navigate = useNavigate();
 
   const confirmShipPlacement = (shipPlacement: ShipPlacement) => {
     // update form x and y, just for debugging purposes.
@@ -217,6 +223,10 @@ const SetupContainer = () => {
 
   const startGame = () => {
     console.log("start game");
+    const newGame = generateGame();
+    newGame.boardOne = board;
+    setGame(newGame);
+    navigate(routes.GAME);
   };
 
   return (

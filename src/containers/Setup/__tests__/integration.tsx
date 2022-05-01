@@ -3,9 +3,21 @@ import SetupContainer from "..";
 import user from "@testing-library/user-event";
 
 import { ShipPlacement } from "../../../interfaces/ShipPlacement";
+import { GameContext } from "../../../contexts/Game";
+
+const mockedUsedNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...(jest.requireActual("react-router-dom") as any),
+  useNavigate: () => mockedUsedNavigate,
+}));
 
 const setupWithRealUI = () => {
-  return render(<SetupContainer />);
+  return render(
+    <GameContext.Provider value={{ game: null, setGame: jest.fn() }}>
+      <SetupContainer />
+    </GameContext.Provider>
+  );
 };
 
 const triggerShipPlacement = (placement: ShipPlacement) => {
