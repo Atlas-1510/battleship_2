@@ -90,6 +90,8 @@ const GameBoard: FC<Props> = ({
         const shouldHighlight: boolean = highlightedCoordinates.some(
           (coord) => coord.x === x && coord.y === y
         );
+        // note: even though tile placement works without manual grid placement,
+        // css grid placement needs to be manually set otherwise ships won't be able to overlap on top.
         let style: React.CSSProperties = {
           gridRowStart: y + 1,
           gridRowEnd: y + 2,
