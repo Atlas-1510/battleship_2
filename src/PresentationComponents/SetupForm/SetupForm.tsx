@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { ShipType, shipTypesArray } from "../../interfaces/Ship";
 import { ShipPlacement } from "../../interfaces/ShipPlacement";
 import Ship from "../Ship/Ship";
@@ -23,6 +23,8 @@ const SetupFormPresentationComponent: FC<Props> = ({
   updateDirection,
   confirmShipPlacement,
 }) => {
+  const [disableStartGameButton, setDisableStartGameButton] = useState(true);
+
   useEffect(() => {
     const handleDirectionChangeRequest = (e: KeyboardEvent) => {
       if (e.key === "r") {
@@ -38,9 +40,21 @@ const SetupFormPresentationComponent: FC<Props> = ({
     };
   }, [updateDirection, formState]);
 
+  useEffect(() => {
+    if (placedShips.length === shipTypesArray.length) {
+      setDisableStartGameButton(false);
+    } else {
+      setDisableStartGameButton(true);
+    }
+  }, [placedShips]);
+
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     confirmShipPlacement(formState);
+  };
+
+  const handleStartGame = () => {
+    console.log("start game");
   };
 
   return (
@@ -131,6 +145,9 @@ const SetupFormPresentationComponent: FC<Props> = ({
           />
         ))}
       </ShipsContainer>
+      <button disabled={disableStartGameButton} onClick={handleStartGame}>
+        Start Game!
+      </button>
     </div>
   );
 };

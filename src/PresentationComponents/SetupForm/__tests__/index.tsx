@@ -47,4 +47,20 @@ describe("SetupPresentationComponent", () => {
     const carrierSelector = screen.getByTestId("carrier");
     expect(carrierSelector.getAttribute("data-placed")).toBe("true");
   });
+  test("Disables start game button unless all ships are placed", () => {
+    setup();
+    const startGameButton = screen.getByRole("button", { name: "Start Game!" });
+    expect(startGameButton).toBeDisabled();
+  });
+  test("Enables start game button if all ships are placed", () => {
+    setup(undefined, [
+      "carrier",
+      "battleship",
+      "cruiser",
+      "submarine",
+      "patrolBoat",
+    ]);
+    const startGameButton = screen.getByRole("button", { name: "Start Game!" });
+    expect(startGameButton).not.toBeDisabled();
+  });
 });

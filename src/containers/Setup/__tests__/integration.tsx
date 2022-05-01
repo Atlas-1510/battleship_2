@@ -135,7 +135,7 @@ describe("SetupContainer", () => {
   });
   test("If try to submit with invalid coordinates, render error to user", async () => {
     setupWithRealUI();
-    user.click(screen.getByRole("button"));
+    user.click(screen.getByRole("button", { name: "Submit" }));
     const error = await screen.findByText("Invalid value for coordinate input");
     expect(error).toBeInTheDocument();
   });
