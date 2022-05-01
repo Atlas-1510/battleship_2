@@ -175,25 +175,73 @@ const GameBoard: FC<Props> = ({
       }
 
       if (type === "carrier" && direction === "horizontal") {
-        shipUI = <CarrierGridIcon key={type} style={style} />;
+        shipUI = (
+          <CarrierGridIcon data-testid="carrier" key={type} style={style} />
+        );
       } else if (type === "carrier" && direction === "vertical") {
-        shipUI = <VerticalCarrierGridIcon key={type} style={style} />;
+        shipUI = (
+          <VerticalCarrierGridIcon
+            data-testid="carrierVertical"
+            key={type}
+            style={style}
+          />
+        );
       } else if (type === "battleship" && direction === "horizontal") {
-        shipUI = <BattleshipGridIcon key={type} style={style} />;
+        shipUI = (
+          <BattleshipGridIcon
+            data-testid="battleship"
+            key={type}
+            style={style}
+          />
+        );
       } else if (type === "battleship" && direction === "vertical") {
-        shipUI = <VerticalBattleshipGridIcon key={type} style={style} />;
+        shipUI = (
+          <VerticalBattleshipGridIcon
+            data-testid="battleshipVertical"
+            key={type}
+            style={style}
+          />
+        );
       } else if (type === "cruiser" && direction === "horizontal") {
-        shipUI = <CruiserGridIcon key={type} style={style} />;
+        shipUI = (
+          <CruiserGridIcon data-testid="cruiser" key={type} style={style} />
+        );
       } else if (type === "cruiser" && direction === "vertical") {
-        shipUI = <VerticalCruiserGridIcon key={type} style={style} />;
+        shipUI = (
+          <VerticalCruiserGridIcon
+            data-testid="cruiserVertical"
+            key={type}
+            style={style}
+          />
+        );
       } else if (type === "submarine" && direction === "horizontal") {
-        shipUI = <SubmarineGridIcon key={type} style={style} />;
+        shipUI = (
+          <SubmarineGridIcon data-testid="submarine" key={type} style={style} />
+        );
       } else if (type === "submarine" && direction === "vertical") {
-        shipUI = <VerticalSubmarineGridIcon key={type} style={style} />;
+        shipUI = (
+          <VerticalSubmarineGridIcon
+            data-testid="submarineVertical"
+            key={type}
+            style={style}
+          />
+        );
       } else if (type === "patrolBoat" && direction === "horizontal") {
-        shipUI = <PatrolBoatGridIcon key={type} style={style} />;
+        shipUI = (
+          <PatrolBoatGridIcon
+            data-testid="patrolBoat"
+            key={type}
+            style={style}
+          />
+        );
       } else if (type === "patrolBoat" && direction === "vertical") {
-        shipUI = <VerticalPatrolBoatGridIcon key={type} style={style} />;
+        shipUI = (
+          <VerticalPatrolBoatGridIcon
+            data-testid="patrolBoatVertical"
+            key={type}
+            style={style}
+          />
+        );
       } else {
         throw new Error(
           `Can't find UI ship asset to match type: ${type} and direction: ${direction}`

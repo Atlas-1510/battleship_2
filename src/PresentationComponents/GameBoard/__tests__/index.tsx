@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { Board } from "../../../interfaces/Board";
 import GameBoard from "..";
@@ -106,5 +106,85 @@ describe("GameBoard Presentation Component", () => {
     const updated_tile_X2_Y5 = await screen.findByTestId("2,5");
     expect(updated_tile_X2_Y1.getAttribute("data-highlight")).toBe("true");
     expect(updated_tile_X2_Y5.getAttribute("data-highlight")).toBe("true");
+  });
+  test("If ship has been placed horizontally, renders ship UI in correct tile coordinates", () => {
+    setup({
+      recievedStrikes: [],
+      ships: [
+        {
+          type: "carrier",
+          length: 5,
+          hits: [],
+          alive: true,
+          location: [
+            {
+              x: 2,
+              y: 1,
+            },
+            {
+              x: 3,
+              y: 1,
+            },
+            {
+              x: 4,
+              y: 1,
+            },
+            {
+              x: 5,
+              y: 1,
+            },
+            {
+              x: 6,
+              y: 1,
+            },
+          ],
+        },
+      ],
+    });
+    const shipUI = screen.getByTestId("carrier");
+    expect(shipUI).toBeInTheDocument();
+    expect(shipUI).toHaveStyle(
+      "grid-row-start: 2; grid-row-end: 3; grid-column-start: 3; grid-column-end: 8;"
+    );
+  });
+  test("If ship has been placed vertically, renders ship UI in correct tile coordinates", () => {
+    setup({
+      recievedStrikes: [],
+      ships: [
+        {
+          type: "carrier",
+          length: 5,
+          hits: [],
+          alive: true,
+          location: [
+            {
+              x: 2,
+              y: 1,
+            },
+            {
+              x: 2,
+              y: 2,
+            },
+            {
+              x: 2,
+              y: 3,
+            },
+            {
+              x: 2,
+              y: 4,
+            },
+            {
+              x: 2,
+              y: 5,
+            },
+          ],
+        },
+      ],
+    });
+    const shipUI = screen.getByTestId("carrierVertical");
+    expect(shipUI).toBeInTheDocument();
+    expect(shipUI).toHaveStyle(
+      "grid-row-start: 2; grid-row-end: 7; grid-column-start: 3; grid-column-end: 4;"
+    );
   });
 });
