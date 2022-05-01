@@ -88,7 +88,7 @@ const GameBoard: FC<Props> = ({
             dataShip={occupiedCoordinate.ship}
             onClick={() => removeShip(occupiedCoordinate.ship)}
             onMouseOver={() => {
-              setHoverCoordinates({ x, y });
+              setHoverCoordinates({ x: -1, y: -1 });
             }}
           />
         );
