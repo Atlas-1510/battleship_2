@@ -12,6 +12,7 @@ interface Props {
   updateDirection: (direction: "horizontal" | "vertical") => void;
   error: string | null;
   confirmShipPlacement: (shipPlacement: ShipPlacement) => void;
+  startGame: () => void;
 }
 
 const SetupFormPresentationComponent: FC<Props> = ({
@@ -22,6 +23,7 @@ const SetupFormPresentationComponent: FC<Props> = ({
   updateCoordinate,
   updateDirection,
   confirmShipPlacement,
+  startGame,
 }) => {
   const [disableStartGameButton, setDisableStartGameButton] = useState(true);
 
@@ -51,10 +53,6 @@ const SetupFormPresentationComponent: FC<Props> = ({
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     confirmShipPlacement(formState);
-  };
-
-  const handleStartGame = () => {
-    console.log("start game");
   };
 
   return (
@@ -145,7 +143,7 @@ const SetupFormPresentationComponent: FC<Props> = ({
           />
         ))}
       </ShipsContainer>
-      <button disabled={disableStartGameButton} onClick={handleStartGame}>
+      <button disabled={disableStartGameButton} onClick={startGame}>
         Start Game!
       </button>
     </div>

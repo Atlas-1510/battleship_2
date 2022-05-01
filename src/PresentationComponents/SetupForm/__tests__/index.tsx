@@ -12,6 +12,7 @@ const initFormState: ShipPlacement = {
 };
 
 const updateDirectionMock = jest.fn();
+const startGameMock = jest.fn();
 
 const setup = (error?: string, placedShips?: ShipType[]) => {
   return render(
@@ -23,6 +24,7 @@ const setup = (error?: string, placedShips?: ShipType[]) => {
       updateDirection={updateDirectionMock}
       error={error || null}
       confirmShipPlacement={jest.fn()}
+      startGame={startGameMock}
     />
   );
 };
@@ -62,5 +64,7 @@ describe("SetupPresentationComponent", () => {
     ]);
     const startGameButton = screen.getByRole("button", { name: "Start Game!" });
     expect(startGameButton).not.toBeDisabled();
+    user.click(startGameButton);
+    expect(startGameMock.mock.calls.length).toBe(1);
   });
 });

@@ -215,6 +215,10 @@ const SetupContainer = () => {
     }
   };
 
+  const startGame = () => {
+    console.log("start game");
+  };
+
   return (
     <SetupView>
       <SetupFormPresentationComponent
@@ -231,6 +235,7 @@ const SetupContainer = () => {
         }
         confirmShipPlacement={confirmShipPlacement}
         formState={form}
+        startGame={startGame}
       />
       <GameBoardPresentationComponent
         board={board}
