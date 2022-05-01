@@ -29,8 +29,10 @@ const BoardTile: FC<Props> = ({
     return (
       <OccupiedTileContainer
         onClick={onClick}
+        onMouseOver={onMouseOver}
         data-testid={`${x},${y}`}
         data-ship={dataShip || ""}
+        data-highlight="false"
       >
         {x},{y}
       </OccupiedTileContainer>
@@ -42,6 +44,7 @@ const BoardTile: FC<Props> = ({
         onMouseOver={onMouseOver}
         data-testid={`${x},${y}`}
         data-ship={dataShip || ""}
+        data-highlight="true"
       >
         {x},{y}
       </HighlightTileContainer>
@@ -53,6 +56,7 @@ const BoardTile: FC<Props> = ({
         onMouseOver={onMouseOver}
         data-testid={`${x},${y}`}
         data-ship={dataShip || ""}
+        data-highlight="false"
       >
         {x},{y}
       </TileContainer>
